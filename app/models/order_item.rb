@@ -1,4 +1,5 @@
 class OrderItem < ApplicationRecord
+  # Feature 4.2.2 join model
   belongs_to :order
   belongs_to :product
   belongs_to :product_variants
