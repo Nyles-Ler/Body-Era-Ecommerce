@@ -1,3 +1,5 @@
+# Feature 1.6
+
 require "csv"
 
 products_file = Rails.root.join("db", "data", "products.csv")
