@@ -11,7 +11,7 @@
   </div>
 
   <span class="badge bodyera-badge fs-6">
-    <%= pluralize(@products.count, "product") %>
+    <%= pluralize(@products.total_count, "product") %>
   </span>
 </div>
 
@@ -82,3 +82,7 @@
         class: "btn bodyera-button" %>
   </div>
 <% end %>
+
+<div class="d-flex justify-content-center mt-5">
+  <%= paginate @products %>
+</div>

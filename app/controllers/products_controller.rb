@@ -12,7 +12,10 @@ class ProductsController < ApplicationController
         search: search_term)
     end
 
-    @products = @products.order(:name)
+    @products = @products
+    .order(:name)
+    .page(params[:page])
+    .per(12)
   end
 
   def show
