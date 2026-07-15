@@ -3,7 +3,16 @@ class ProductsController < ApplicationController
     @products = Product
     .includes(:category, :product_images)
     .where(active: true)
-    .order(:name)
+
+    if params[:search].present?
+      search_term = "%#{params[:search]}%"
+
+      @products = @products.where(
+        "products.name LIKE :search OR products.description LIKE :search",
+        search: search_term)
+    end
+
+    @products = @products.order(:name)
   end
 
   def show

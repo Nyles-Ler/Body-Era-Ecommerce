@@ -1,2 +1,99 @@
-@import 'bootstrap/scss/bootstrap';
-@import 'bootstrap-icons/font/bootstrap-icons';
+@import "bootstrap/scss/bootstrap";
+@import "bootstrap-icons/font/bootstrap-icons";
+
+$bodyera-accent: #6b5050;
+$bodyera-dark: #111111;
+$bodyera-light: #f8f9fa;
+
+body {
+  background-color: $bodyera-light;
+  font-family: "Science Gothic", sans-serif;
+}
+
+/* ---------- Home Hero ---------- */
+
+.bodyera-hero {
+  background-color: $bodyera-dark;
+  border: 1px solid rgba($bodyera-accent, 0.45);
+  box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.12);
+}
+
+.bodyera-hero-title {
+  color: $bodyera-accent;
+  letter-spacing: 0.08rem;
+  text-transform: uppercase;
+}
+
+.bodyera-hero-tagline {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.bodyera-hero-description {
+  color: #c7c7c7;
+  max-width: 650px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ---------- Navbar ---------- */
+
+.bodyera-navbar {
+  background-color: $bodyera-dark;
+}
+
+.bodyera-text {
+  color: $bodyera-accent;
+  font-family: "Science Gothic", sans-serif;
+  letter-spacing: 0.08rem;
+  text-transform: uppercase;
+}
+
+.bodyera-text:hover {
+  color: lighten($bodyera-accent, 12%);
+}
+
+.bodyera-nav-link {
+  color: #d5d5d5;
+  font-family: "Science Gothic", sans-serif;
+}
+
+.bodyera-nav-link:hover {
+  color: $bodyera-accent;
+}
+
+.bodyera-button {
+  background-color: $bodyera-accent;
+  border-color: $bodyera-accent;
+  color: white;
+}
+
+.bodyera-button:hover {
+  background-color: darken($bodyera-accent, 8%);
+  border-color: darken($bodyera-accent, 8%);
+}
+
+/* ---------- Main ---------- */
+
+.bodyera-main {
+  background-color: $bodyera-light;
+  min-height: 80vh;
+}
+
+/* ---------- Footer ---------- */
+
+.bodyera-footer {
+  background-color: $bodyera-dark;
+  border-top: 2px solid $bodyera-accent;
+  padding: 2.5rem 0;
+}
+
+.footer-description {
+  color: #b8b8b8;
+  max-width: 550px;
+  margin: 0 auto;
+}
+
+.footer-copyright {
+  color: #8f8f8f;
+}

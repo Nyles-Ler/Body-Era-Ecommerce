@@ -1,2 +1,89 @@
-<h1>Products#show</h1>
-<p>Find me in app/views/products/show.html.erb</p>
+<!-- Displays detailed information for a single BodyEra product -->
+
+<div class="row g-5">
+
+  <!-- Product Image -->
+  <div class="col-lg-6">
+    <% product_image = @product.product_images.first %>
+
+    <% if product_image.present? %>
+      <%= image_tag product_image.image_url,
+          alt: product_image.alt_text,
+          class: "img-fluid bodyera-show-image" %>
+    <% else %>
+      <div class="bodyera-show-placeholder">
+        No image available
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Product Information -->
+  <div class="col-lg-6">
+
+    <p class="bodyera-category-label mb-2">
+      <%= @product.category.name %>
+    </p>
+
+    <h1 class="display-5 fw-bold mb-3">
+      <%= @product.name %>
+    </h1>
+
+    <p class="bodyera-price fs-3 fw-bold mb-4">
+      <%= number_to_currency(@product.current_price) %>
+    </p>
+
+    <p class="lead text-muted mb-4">
+      <%= @product.description %>
+    </p>
+
+    <!-- Available Product Variants -->
+    <div class="card bodyera-detail-card mb-4">
+      <div class="card-body">
+        <h2 class="h4 mb-3">Available Options</h2>
+
+        <% if @product.product_variants.any? %>
+          <div class="table-responsive">
+            <table class="table align-middle mb-0">
+              <thead>
+                <tr>
+                  <th>Size</th>
+                  <th>Colour</th>
+                  <th>Stock</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @product.product_variants.order(:size, :colour).each do |variant| %>
+                  <tr>
+                    <td><%= variant.size %></td>
+                    <td><%= variant.colour %></td>
+                    <td>
+                      <% if variant.stock_quantity.positive? %>
+                        <span class="badge bodyera-stock-badge">
+                          <%= variant.stock_quantity %> available
+                        </span>
+                      <% else %>
+                        <span class="badge bg-secondary">
+                          Out of stock
+                        </span>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        <% else %>
+          <p class="text-muted mb-0">
+            No product variants are currently available.
+          </p>
+        <% end %>
+      </div>
+    </div>
+
+    <%= link_to "Back to Products",
+        products_path,
+        class: "btn btn-outline-secondary" %>
+
+  </div>
+</div>
