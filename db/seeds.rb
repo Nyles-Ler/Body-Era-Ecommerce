@@ -48,4 +48,15 @@ end
 puts "Seeded #{Category.count} categories."
 puts "Seeded #{Product.count} products."
 puts "Seeded #{ProductVariant.count} product variants."
+puts "Seeded #{Category.count} categories."
+puts "Seeded #{Product.count} products."
+puts "Seeded #{ProductVariant.count} product variants."
 puts "Seeded #{ProductImage.count} product images."
+
+# Feature 1.1, 1.2 Creates administrator account
+AdminUser.find_or_create_by!(email: "admin@bodyera.ca") do |admin|
+  admin.password = "password"
+  admin.password_confirmation = "password"
+end
+
+puts "Seeded admin user."
