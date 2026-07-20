@@ -4,15 +4,23 @@
 
   <!-- Product Image -->
   <div class="col-lg-6">
-    <% product_image = @product.product_images.first %>
-
-    <% if product_image.present? %>
-      <%= image_tag product_image.image_url,
-          alt: product_image.alt_text,
-          class: "img-fluid bodyera-show-image" %>
+    <% if @product.images.attached? %>
+      <div class="row g-3 mb-4">
+        <% @product.images.each_with_index do |image, index| %>
+          <div class="<%= index.zero? ? 'col-12' : 'col-6 col-md-4' %>">
+            <%= image_tag image.variant(
+                  resize_to_limit: [900, 900]
+                ),
+                class: "img-fluid rounded shadow-sm w-100",
+                style: "max-height: 500px; object-fit: cover;",
+                alt: "#{@product.name} image #{index + 1}" %>
+          </div>
+        <% end %>
+      </div>
     <% else %>
-      <div class="bodyera-show-placeholder">
-        No image available
+      <div class="bg-light rounded d-flex align-items-center justify-content-center mb-4"
+          style="height: 400px;">
+        <span class="text-muted">No product image available</span>
       </div>
     <% end %>
   </div>

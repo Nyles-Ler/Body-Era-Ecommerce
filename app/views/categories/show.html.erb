@@ -27,11 +27,11 @@
       <div class="col-sm-6 col-lg-4 col-xl-3">
         <div class="card bodyera-product-card h-100">
 
-          <% product_image = product.product_images.first %>
-
-          <% if product_image.present? %>
-            <%= image_tag product_image.image_url,
-                alt: product_image.alt_text,
+          <% if product.images.attached? %>
+            <%= image_tag product.images.first.variant(
+                  resize_to_fill: [500, 500]
+                ),
+                alt: product.name,
                 class: "card-img-top bodyera-product-image" %>
           <% else %>
             <div class="bodyera-image-placeholder">

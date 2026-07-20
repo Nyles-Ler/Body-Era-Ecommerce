@@ -13,6 +13,25 @@
   <% @categories.each do |category| %>
     <div class="col-sm-6 col-lg-4">
       <div class="card bodyera-category-card h-100">
+
+        <% featured_product = category.products.where(active: true)
+                                              .includes(images_attachments: :blob)
+                                              .first %>
+
+        <% if featured_product&.images&.attached? %>
+          <%= image_tag featured_product.images.first.variant(
+                resize_to_fill: [600, 350]
+              ),
+              class: "card-img-top",
+              style: "height: 220px; object-fit: cover;",
+              alt: category.name %>
+        <% else %>
+          <div class="bg-light d-flex align-items-center justify-content-center"
+              style="height: 220px;">
+            <span class="text-muted">No image available</span>
+          </div>
+        <% end %>
+
         <div class="card-body d-flex flex-column">
 
           <h2 class="h4">

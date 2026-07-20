@@ -4,7 +4,8 @@ ActiveAdmin.register Product do
                 :description,
                 :current_price,
                 :active,
-                :category_id
+                :category_id,
+                images: []
 
   includes :category
 
@@ -36,6 +37,14 @@ ActiveAdmin.register Product do
       f.input :description
       f.input :current_price
       f.input :active
+
+      # Feature 1.3, 5.2
+      f.input :images,
+      as: :file,
+      input_html: {
+        multiple: true,
+        accept: "image/png,image/jpeg,image/webp"
+      }
     end
 
     f.actions

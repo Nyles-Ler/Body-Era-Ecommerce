@@ -1,7 +1,7 @@
 class ProductsController < ApplicationController
   def index
     @products = Product
-    .includes(:category, :product_images)
+    .includes(:category).with_attached_images
     .where(active: true)
 
     if params[:search].present?
@@ -20,7 +20,8 @@ class ProductsController < ApplicationController
 
   def show
     @product = Product
-    .includes(:category, :product_images, :product_variants)
+    .includes(:category, :product_variants)
+    .with_attached_images
     .find(params[:id])
   end
 end

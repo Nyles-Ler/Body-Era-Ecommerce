@@ -1,7 +1,7 @@
 class CategoriesController < ApplicationController
   def index
     @categories = Category
-    .includes(:products)
+    .includes(products: [images_attachments: :blob])
     .order(:name)
   end
 
@@ -9,7 +9,7 @@ class CategoriesController < ApplicationController
     @category = Category.find(params[:id])
 
     @products = @category.products
-    .includes(:product_images)
+    .with_attached_images
     .where(active: true)
     .order(:name)
   end

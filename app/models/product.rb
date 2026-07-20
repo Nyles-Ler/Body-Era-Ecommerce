@@ -3,9 +3,11 @@ class Product < ApplicationRecord
   belongs_to :category
 
   has_many :product_variants, dependent: :destroy
-  has_many :product_images, dependent: :destroy
   has_many :order_items, dependent: :restrict_with_error
   has_many :reviews, dependent: :destroy
+
+  # Feature 1.3, 5.2 Product images using Active Storage
+  has_many_attached :images
 
   # Feature 4.2.1
   validates :name, presence: true, length: { maximum: 150 }
