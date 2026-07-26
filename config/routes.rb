@@ -5,7 +5,8 @@ Rails.application.routes.draw do
 
   root "home#index"
 
-  get 'home/about', to: 'home#about', as: 'about'
+  get "/about", to: "pages#show", defaults: { slug: "about" }, as: :about
+  get "/contact", to: "pages#show", defaults: { slug: "contact" }, as: :contact
 
   resources :products, only: [:index, :show]
   resources :categories, only: [:index, :show]

@@ -15,6 +15,21 @@
   </span>
 </div>
 
+<!-- Feature 2.4 - Product Filters -->
+<div class="d-flex flex-wrap gap-2 mb-4">
+  <%= link_to "All Products",
+      products_path,
+      class: "btn #{params[:filter].blank? ? 'bodyera-button' : 'btn-outline-secondary'}" %>
+
+  <%= link_to "New Products",
+      products_path(filter: "new"),
+      class: "btn #{params[:filter] == 'new' ? 'bodyera-button' : 'btn-outline-secondary'}" %>
+
+  <%= link_to "Recently Updated",
+      products_path(filter: "recently_updated"),
+      class: "btn #{params[:filter] == 'recently_updated' ? 'bodyera-button' : 'btn-outline-secondary'}" %>
+</div>
+
 <% if params[:search].present? %>
   <div class="alert bodyera-alert mb-4">
     Showing results for:
@@ -23,6 +38,16 @@
     <%= link_to "Clear search",
         products_path,
         class: "ms-2 bodyera-link" %>
+  </div>
+<% end %>
+
+<% if params[:filter] == "new" %>
+  <div class="alert bodyera-alert mb-4">
+    Showing products added within the past 3 days.
+  </div>
+<% elsif params[:filter] == "recently_updated" %>
+  <div class="alert bodyera-alert mb-4">
+    Showing products updated within the past 3 days.
   </div>
 <% end %>
 

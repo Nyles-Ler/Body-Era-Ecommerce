@@ -36,22 +36,9 @@ Product.find_each do |product|
   end
 end
 
-Product.find_each do |product|
-  ProductImage.find_or_create_by!(
-    product: product,
-    image_url: "https://placehold.co/600x600?text=#{ERB::Util.url_encode(product.name)}"
-  ) do |image|
-    image.alt_text = "#{product.name} product image"
-  end
-end
-
 puts "Seeded #{Category.count} categories."
 puts "Seeded #{Product.count} products."
 puts "Seeded #{ProductVariant.count} product variants."
-puts "Seeded #{Category.count} categories."
-puts "Seeded #{Product.count} products."
-puts "Seeded #{ProductVariant.count} product variants."
-puts "Seeded #{ProductImage.count} product images."
 
 # Feature 1.1, 1.2 Creates administrator account
 AdminUser.find_or_create_by!(email: "admin@bodyera.ca") do |admin|
@@ -60,3 +47,40 @@ AdminUser.find_or_create_by!(email: "admin@bodyera.ca") do |admin|
 end
 
 puts "Seeded admin user."
+
+# Feature 1.4 Edit content of websites about and contact page
+contact_page = Page.find_or_initialize_by(slug: "contact")
+contact_page.title = "Contact BodyEra"
+contact_page.content = <<~TEXT
+  We'd love to hear from you!
+
+  Whether you have questions about our products, need help with an order, or want to learn more about BodyEra, we're here to help.
+
+  Email:
+  support@bodyera.ca
+
+  Phone:
+  (431) 754-3299
+
+  Business Hours:
+  Monday to Friday
+  9:00 AM to 5:00 PM
+TEXT
+
+contact_page.save!
+
+about_page = Page.find_or_initialize_by(slug: "about")
+about_page.title = "About BodyEra"
+about_page.content = <<~TEXT
+  Branded Fitness Apparel
+
+  Welcome to BodyEra, your ultimate destination for all things fitness and wellness! At BodyEra, we believe that a healthy body is the foundation of a happy life. Our mission is to empower individuals to achieve their fitness goals through high-quality products, expert advice, and a supportive community.
+
+  Whether you're a seasoned athlete or just starting your fitness journey, BodyEra has something for everyone. Explore our wide range of fitness apparel designed to help you perform at your best. Our team is dedicated to providing quality products, inspiration, and support to keep you motivated and on track.
+
+  Join us at BodyEra and take the first step towards a healthier, stronger you. Together, we can create a community that celebrates fitness, wellness, and the pursuit of a better lifestyle. Let's embark on this journey to a better body and a better era!
+TEXT
+
+about_page.save!
+
+puts "Seeded about and contact page."

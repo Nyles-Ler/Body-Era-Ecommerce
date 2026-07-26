@@ -12,6 +12,18 @@ class ProductsController < ApplicationController
         search: search_term)
     end
 
+    case params[:filter]
+    when "new"
+      @products = @products.where("products.created_at >= ?", 3.days.ago)
+
+    when "recently_updated"
+      @products = @products
+      .where("products.updated_at >= ?", 3.days.ago)
+      .where("products.created_at < ?", 3.days.ago)
+    end
+
+
+
     @products = @products
     .order(:name)
     .page(params[:page])

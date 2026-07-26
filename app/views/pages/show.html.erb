@@ -1,0 +1,17 @@
+<!-- Displays editable website page content -->
+
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card bodyera-detail-card">
+      <div class="card-body p-4 p-md-5">
+        <h1 class="display-5 fw-bold mb-4">
+          <%= @page.title %>
+        </h1>
+
+        <div class="lead text-muted">
+          <%= simple_format(@page.content) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
