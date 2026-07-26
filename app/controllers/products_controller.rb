@@ -12,6 +12,11 @@ class ProductsController < ApplicationController
         search: search_term)
     end
 
+    # Feature 2.6 Category dropdown
+    if params[:category_id].present?
+      @products = @products.where(category_id: params[:category_id])
+    end
+
     case params[:filter]
     when "new"
       @products = @products.where("products.created_at >= ?", 3.days.ago)

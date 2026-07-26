@@ -30,10 +30,23 @@
       class: "btn #{params[:filter] == 'recently_updated' ? 'bodyera-button' : 'btn-outline-secondary'}" %>
 </div>
 
-<% if params[:search].present? %>
+<% if params[:search].present? || params[:category_id].present? %>
   <div class="alert bodyera-alert mb-4">
-    Showing results for:
-    <strong><%= params[:search] %></strong>
+    <% if params[:search].present? %>
+      Showing results for:
+      <strong><%= params[:search] %></strong>
+    <% else %>
+      Showing products
+    <% end %>
+
+    <% if params[:category_id].present? %>
+      <% selected_category = Category.find_by(id: params[:category_id]) %>
+
+      <% if selected_category %>
+        in:
+        <strong><%= selected_category.name %></strong>
+      <% end %>
+    <% end %>
 
     <%= link_to "Clear search",
         products_path,
@@ -110,6 +123,12 @@
   </div>
 <% end %>
 
+<!-- Feature 2.6 Category dropdown search -->
 <div class="d-flex justify-content-center mt-5">
-  <%= paginate @products %>
+  <%= paginate @products,
+    params: {
+      search: params[:search],
+      category_id: params[:category_id],
+      filter: params[:filter]
+    } %>
 </div>

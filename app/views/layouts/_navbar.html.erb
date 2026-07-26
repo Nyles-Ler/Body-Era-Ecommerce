@@ -24,17 +24,26 @@
         <%= link_to "Contact", contact_path, class: "nav-link" %>
       </div>
 
-      <!-- Sends the search query to the product index page -->
+      <!-- Feature 2.6 Category Dropdown Optional Search -->
       <%= form_with url: products_path,
-          method: :get,
-          local: true,
-          class: "d-flex mt-3 mt-lg-0" do %>
+                    method: :get,
+                    local: true,
+                    class: "d-flex gap-2" do %>
 
         <%= text_field_tag :search,
             params[:search],
-            class: "form-control me-2",
             placeholder: "Search products...",
-            aria: { label: "Search products" } %>
+            class: "form-control" %>
+
+        <%= select_tag :category_id,
+            options_from_collection_for_select(
+              Category.order(:name),
+              :id,
+              :name,
+              params[:category_id]
+            ),
+            include_blank: "All Categories",
+            class: "form-select" %>
 
         <%= submit_tag "Search",
             class: "btn bodyera-button" %>
