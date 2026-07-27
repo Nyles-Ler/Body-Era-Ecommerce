@@ -10,4 +10,10 @@ Rails.application.routes.draw do
 
   resources :products, only: [:index, :show]
   resources :categories, only: [:index, :show]
+
+  resource :cart, only: [:show] do
+    post :add
+    patch :update
+    delete :remove
+  end
 end

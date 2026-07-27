@@ -22,44 +22,11 @@
 </div>
 
 <% if @products.any? %>
-  <div class="row g-4">
-    <% @products.each do |product| %>
-      <div class="col-sm-6 col-lg-4 col-xl-3">
-        <div class="card bodyera-product-card h-100">
-
-          <% if product.images.attached? %>
-            <%= image_tag product.images.first.variant(
-                  resize_to_fill: [500, 500]
-                ),
-                alt: product.name,
-                class: "card-img-top bodyera-product-image" %>
-          <% else %>
-            <div class="bodyera-image-placeholder">
-              No image available
-            </div>
-          <% end %>
-
-          <div class="card-body d-flex flex-column">
-            <h2 class="h5 card-title">
-              <%= product.name %>
-            </h2>
-
-            <p class="card-text text-muted product-description">
-              <%= truncate(product.description, length: 90) %>
-            </p>
-
-            <p class="bodyera-price fs-5 fw-bold mt-auto">
-              <%= number_to_currency(product.current_price) %>
-            </p>
-
-            <%= link_to "View Product",
-                product_path(product),
-                class: "btn bodyera-button w-100" %>
-          </div>
-        </div>
-      </div>
-    <% end %>
-  </div>
+<div class="row g-4">
+  <%= render partial: "products/product_card",
+             collection: @products,
+             as: :product %>
+</div>
 <% else %>
   <div class="text-center py-5">
     <h2 class="h4">No products available</h2>
