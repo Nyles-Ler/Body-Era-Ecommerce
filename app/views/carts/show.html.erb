@@ -112,9 +112,9 @@
             Taxes and shipping will be calculated during checkout.
           </p>
 
-          <button class="btn bodyera-button w-100">
-            Checkout
-          </button>
+          <%= link_to "Checkout",
+              new_cart_checkout_path,
+              class: "btn bodyera-button w-100" %>
         </div>
       </div>
     </div>
@@ -136,7 +136,7 @@
 <div class="d-grid gap-2 mt-4">
 
   <%= link_to "Checkout",
-      "#",
+      new_cart_checkout_path,
       class: "btn bodyera-button btn-lg" %>
 
   <%= link_to "Continue Shopping",

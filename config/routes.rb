@@ -15,5 +15,9 @@ Rails.application.routes.draw do
     post :add
     patch :update
     delete :remove
+
+  # Feature 3.1.3 Checkout process
+  resource :checkout, only: [:new, :create]
   end
+  resources :orders, only: [:show]
 end

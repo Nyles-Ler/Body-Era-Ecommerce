@@ -7,4 +7,23 @@ class Review < ApplicationRecord
   validates :rating, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 5 }
   validates :review_text, presence: true, length: { minimum: 5, maximum: 2_000 }
   validates :user_id, uniqueness: { scope: :product_id, message: "has already reviewed this product" }, if: -> { user_id.present? && product_id.present? }
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[
+      created_at
+      id
+      product_id
+      rating
+      review_text
+      updated_at
+      user_id
+    ]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[
+      product
+      user
+    ]
+  end
 end

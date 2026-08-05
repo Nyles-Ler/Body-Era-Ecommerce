@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_07_20_230746) do
+ActiveRecord::Schema[7.0].define(version: 2026_08_05_142532) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -62,6 +62,8 @@ ActiveRecord::Schema[7.0].define(version: 2026_07_20_230746) do
     t.string "country", default: "Canada", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "province_record_id"
+    t.index ["province_record_id"], name: "index_addresses_on_province_record_id"
     t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 
@@ -106,6 +108,14 @@ ActiveRecord::Schema[7.0].define(version: 2026_07_20_230746) do
     t.string "order_status", default: "pending", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "address_id"
+    t.decimal "gst_rate", precision: 5, scale: 4, default: "0.0", null: false
+    t.decimal "pst_rate", precision: 5, scale: 4, default: "0.0", null: false
+    t.decimal "hst_rate", precision: 5, scale: 4, default: "0.0", null: false
+    t.decimal "gst_amount", precision: 10, scale: 2, default: "0.0", null: false
+    t.decimal "pst_amount", precision: 10, scale: 2, default: "0.0", null: false
+    t.decimal "hst_amount", precision: 10, scale: 2, default: "0.0", null: false
+    t.index ["address_id"], name: "index_orders_on_address_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -140,6 +150,18 @@ ActiveRecord::Schema[7.0].define(version: 2026_07_20_230746) do
     t.index ["category_id"], name: "index_products_on_category_id"
   end
 
+  create_table "provinces", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "code", null: false
+    t.decimal "gst_rate", precision: 5, scale: 4, default: "0.0", null: false
+    t.decimal "pst_rate", precision: 5, scale: 4, default: "0.0", null: false
+    t.decimal "hst_rate", precision: 5, scale: 4, default: "0.0", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_provinces_on_code", unique: true
+    t.index ["name"], name: "index_provinces_on_name", unique: true
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "product_id", null: false
@@ -165,10 +187,12 @@ ActiveRecord::Schema[7.0].define(version: 2026_07_20_230746) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "addresses", "provinces", column: "province_record_id"
   add_foreign_key "addresses", "users"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "product_variants"
   add_foreign_key "order_items", "products"
+  add_foreign_key "orders", "addresses"
   add_foreign_key "orders", "users"
   add_foreign_key "product_variants", "products"
   add_foreign_key "products", "categories"

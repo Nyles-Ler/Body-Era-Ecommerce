@@ -1,0 +1,180 @@
+<!-- Feature 3.1.3 - Customer checkout -->
+
+<div class="mb-4">
+  <h1 class="mb-1">Checkout</h1>
+
+  <p class="text-muted mb-0">
+    Enter your customer and shipping information.
+  </p>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-7">
+    <div class="card bodyera-detail-card">
+      <div class="card-body p-4">
+        <h2 class="h4 mb-4">Customer Information</h2>
+
+        <%= form_with scope: :checkout,
+                      url: cart_checkout_path,
+                      method: :post,
+                      local: true do |form| %>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <%= form.label :first_name,
+                "First Name",
+                class: "form-label" %>
+
+            <%= form.text_field :first_name,
+                value: params.dig(:checkout, :first_name),
+                class: "form-control",
+                required: true %>
+          </div>
+
+          <div class="col-md-6">
+            <%= form.label :last_name,
+                "Last Name",
+                class: "form-label" %>
+
+            <%= form.text_field :last_name,
+                value: params.dig(:checkout, :last_name),
+                class: "form-control",
+                required: true %>
+          </div>
+
+          <div class="col-md-8">
+            <%= form.label :email,
+                "Email",
+                class: "form-label" %>
+
+            <%= form.email_field :email,
+                value: params.dig(:checkout, :email),
+                class: "form-control",
+                required: true %>
+          </div>
+
+          <div class="col-md-4">
+            <%= form.label :phone_number,
+                "Phone Number",
+                class: "form-label" %>
+
+            <%= form.telephone_field :phone_number,
+                value: params.dig(:checkout, :phone_number),
+                class: "form-control",
+                required: true %>
+          </div>
+        </div>
+
+        <hr class="my-4">
+
+        <h2 class="h4 mb-4">Shipping Address</h2>
+
+        <div class="row g-3">
+          <div class="col-12">
+            <%= form.label :street_address,
+                "Street Address",
+                class: "form-label" %>
+
+            <%= form.text_field :street_address,
+                value: params.dig(:checkout, :street_address),
+                class: "form-control",
+                required: true %>
+          </div>
+
+          <div class="col-md-6">
+            <%= form.label :city,
+                "City",
+                class: "form-label" %>
+
+            <%= form.text_field :city,
+                value: params.dig(:checkout, :city),
+                class: "form-control",
+                required: true %>
+          </div>
+
+          <div class="col-md-6">
+            <%= form.label :province_id,
+                "Province",
+                class: "form-label" %>
+
+            <%= form.collection_select :province_id,
+                @provinces,
+                :id,
+                :name,
+                {
+                  prompt: "Select a province",
+                  selected: params.dig(:checkout, :province_id)
+                },
+                {
+                  class: "form-select",
+                  required: true
+                } %>
+          </div>
+
+          <div class="col-md-6">
+            <%= form.label :postal_code,
+                "Postal Code",
+                class: "form-label" %>
+
+            <%= form.text_field :postal_code,
+                value: params.dig(:checkout, :postal_code),
+                placeholder: "R3B 1K9",
+                class: "form-control",
+                required: true %>
+          </div>
+        </div>
+
+        <div class="d-grid mt-4">
+          <%= form.submit "Place Order",
+              class: "btn bodyera-button btn-lg" %>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-5">
+    <div class="card bodyera-detail-card">
+      <div class="card-body">
+        <h2 class="h4 mb-3">Order Summary</h2>
+
+        <% @cart_items.each do |item| %>
+          <div class="border-bottom py-3">
+            <div class="d-flex justify-content-between gap-3">
+              <div>
+                <p class="fw-bold mb-1">
+                  <%= item[:product].name %>
+                </p>
+
+                <p class="small text-muted mb-0">
+                  <%= item[:variant].size %> /
+                  <%= item[:variant].colour %>
+                  x <%= item[:quantity] %>
+                </p>
+              </div>
+
+              <span class="fw-semibold">
+                <%= number_to_currency(item[:line_total]) %>
+              </span>
+            </div>
+          </div>
+        <% end %>
+
+        <div class="d-flex justify-content-between pt-3 fs-5 fw-bold">
+          <span>Subtotal</span>
+          <span><%= number_to_currency(@subtotal) %></span>
+        </div>
+
+        <p class="text-muted mt-3 mb-0">
+          GST, PST, or HST will be calculated using the selected province when the order is placed.
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-3">
+      <%= link_to "Return to Cart",
+          cart_path,
+          class: "btn btn-outline-secondary w-100" %>
+    </div>
+  </div>
+</div>

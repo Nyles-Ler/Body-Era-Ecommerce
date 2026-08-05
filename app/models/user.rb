@@ -13,6 +13,26 @@ class User < ApplicationRecord
   validates :phone_number, allow_blank: true, format: { with: /\A[\d\s()+\-]+\z/, message: "contains invalid characters" }, length: { maximum: 25 }
   validates :password, length: { minimum: 8 }, if: -> { password.present? }
 
+    def self.ransackable_attributes(auth_object = nil)
+    %w[
+      created_at
+      email
+      first_name
+      id
+      last_name
+      phone_number
+      updated_at
+    ]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[
+      addresses
+      orders
+      reviews
+    ]
+  end
+
   private
 
   def normalize_email
