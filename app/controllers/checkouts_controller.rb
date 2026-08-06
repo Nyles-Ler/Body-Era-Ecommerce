@@ -129,6 +129,7 @@ class CheckoutsController < ApplicationController
     tax_amount = gst_amount + pst_amount + hst_amount
     total_amount = @subtotal + tax_amount
 
+    # Stores tax total at checkout so past invoices dont change
     user.orders.create!(
       address: address,
       subtotal: @subtotal,
@@ -152,6 +153,7 @@ class CheckoutsController < ApplicationController
         raise ActiveRecord::RecordInvalid.new(variant)
       end
 
+      # Stores total at checkout so if theres changes, old total wont change
       order.order_items.create!(
         product: item[:product],
         product_variant: variant,

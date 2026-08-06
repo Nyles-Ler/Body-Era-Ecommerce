@@ -1,4 +1,5 @@
 class OrderItem < ApplicationRecord
+  # Saves the product price at checkout
   # Feature 4.2.2 join model
   belongs_to :order
   belongs_to :product

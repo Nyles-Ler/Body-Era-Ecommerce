@@ -1,4 +1,5 @@
 class Order < ApplicationRecord
+  # Saves tax rates and amounts at checkout
   # Feature 4.2.2
   belongs_to :user
   belongs_to :address, optional: true
