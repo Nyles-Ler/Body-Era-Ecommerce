@@ -25,6 +25,9 @@ class OrdersController < ApplicationController
     return unless checkout_session.payment_status == "paid"
 
     session[:cart] = {}
+
+    redirect_to order_path(@order), status: :see_other
+
   rescue Stripe::StripeError => error
     Rails.logger.error(
       "Could not verify Strip session while clearing cart: #{error.message}"
