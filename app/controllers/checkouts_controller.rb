@@ -28,19 +28,33 @@ class CheckoutsController < ApplicationController
       return
     end
 
+    checkout_session = nil
+
     ActiveRecord::Base.transaction do
       user = find_or_create_customer!
       address = create_address!(user, province)
       order = create_order!(user, address, province)
+
       create_order_items!(order)
 
-      session[:cart] = {}
+      checkout_session = create_stripe_checkout_session!(order)
 
-      redirect_to order_path(order), notice: "Your order has been placed successfully."
+      order.update!(
+        stripe_checkout_session_id: checkout_session.id
+      )
     end
+
+      redirect_to checkout_session.url,
+                  allow_other_host: true,
+                  status: :see_other
   rescue ActiveRecord::RecordInvalid => error
     flash.now[:alert] = error.record.errors.full_messages.to_sentence
-    render :new, status: :underprocessable_entity
+    render :new, status: :unprocessable_entity
+  rescue Stripe::StripeError => error
+    Rails.logger.error("Stripe checkout error: #{error.message}")
+
+      redirect_to cart_path,
+                  alert: "There was an error processing your payment. Please try again."
   end
 
   private
@@ -159,5 +173,97 @@ class CheckoutsController < ApplicationController
       :province_id,
       :postal_code
     )
+  end
+
+  def create_stripe_checkout_session!(order)
+    Stripe::Checkout::Session.create(
+      mode: "payment",
+
+      payment_method_types: ["card"],
+
+      customer_email: order.user.email,
+
+      client_reference_id: order.id.to_s,
+
+      metadata: {
+        order_id: order.id.to_s
+      },
+
+      payment_intent_data: {
+        metadata: {
+          order_id: order.id.to_s
+        }
+      },
+
+      line_items: stripe_line_items(order),
+
+      success_url: "#{order_url(order)}?session_id={CHECKOUT_SESSION_ID}",
+
+      cancel_url: cart_url
+    )
+  end
+
+  def stripe_line_items(order)
+    product_items = order.order_items.map do |item|
+      {
+        price_data: {
+          currency: "cad",
+
+          product_data: {
+            name: item.product.name,
+
+            description: [
+              item.product_variant.size,
+              item.product_variant.colour
+            ].join(" / ")
+          },
+
+          unit_amount: (item.unit_price * 100).round
+        },
+
+        quantity: item.quantity
+      }
+    end
+
+    tax_items = []
+
+    if order.gst_amount.positive?
+      tax_items << stripe_tax_line_item(
+        "GST",
+        order.gst_amount
+      )
+    end
+
+    if order.pst_amount.positive?
+      tax_items << stripe_tax_line_item(
+        "PST",
+        order.pst_amount
+      )
+    end
+
+    if order.hst_amount.positive?
+      tax_items << stripe_tax_line_item(
+        "HST",
+        order.hst_amount
+      )
+    end
+
+    product_items + tax_items
+  end
+
+  def stripe_tax_line_item(name, amount)
+    {
+      price_data: {
+        currency: "cad",
+
+        product_data: {
+          name: "#{name} - Canadian Sales Tax"
+        },
+
+        unit_amount: (amount * 100).round
+      },
+
+      quantity: 1
+    }
   end
 end

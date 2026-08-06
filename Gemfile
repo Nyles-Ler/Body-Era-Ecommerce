@@ -3,6 +3,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.2.4"
 
+# Feature 3.3.1
+gem "stripe"
+
 gem "kaminari"
 
 gem "cssbundling-rails", "~> 1.4"

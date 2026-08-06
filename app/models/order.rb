@@ -28,13 +28,15 @@ class Order < ApplicationRecord
       order_status
       pst_amount
       pst_rate
+      stripe_checkout_session_id
+      stripe_payment_intent_id
       subtotal
       tax_amount
       total_amount
       updated_at
       user_id
     ]
-  end
+    end
 
   def self.ransackable_associations(auth_object = nil)
     %w[
