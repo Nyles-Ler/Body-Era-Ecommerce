@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_08_05_142532) do
+ActiveRecord::Schema[7.0].define(version: 2026_08_06_160831) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -115,7 +115,12 @@ ActiveRecord::Schema[7.0].define(version: 2026_08_05_142532) do
     t.decimal "gst_amount", precision: 10, scale: 2, default: "0.0", null: false
     t.decimal "pst_amount", precision: 10, scale: 2, default: "0.0", null: false
     t.decimal "hst_amount", precision: 10, scale: 2, default: "0.0", null: false
+    t.string "stripe_checkout_session_id"
+    t.string "stripe_payment_intent_id"
+    t.datetime "paid_at"
     t.index ["address_id"], name: "index_orders_on_address_id"
+    t.index ["stripe_checkout_session_id"], name: "index_orders_on_stripe_checkout_session_id", unique: true
+    t.index ["stripe_payment_intent_id"], name: "index_orders_on_stripe_payment_intent_id", unique: true
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
