@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   end
   resources :orders, only: [:show]
 
-  post "/stripe_webhook",
+  post "/stripe/webhook",
        to: "stripe_webhooks#create",
        as: :stripe_webhook
 end
