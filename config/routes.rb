@@ -20,4 +20,8 @@ Rails.application.routes.draw do
   resource :checkout, only: [:new, :create]
   end
   resources :orders, only: [:show]
+
+  post "/stripe_webhook",
+       to: "stripe_webhooks#create",
+       as: :stripe_webhook
 end
