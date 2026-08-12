@@ -27,4 +27,95 @@ ActiveAdmin.register Order do
   f.actions
   end
 
+  show do
+    attributes_table do
+      row :id
+      row :order_status
+      row :created_at
+
+      row "Customer" do |order|
+        "#{order.user.first_name} #{order.user.last_name}"
+      end
+
+      row "Email" do |order|
+        order.user.email
+      end
+
+      row "Phone Number" do |order|
+        order.user.phone_number
+      end
+
+      row "Shipping Address" do |order|
+        address = order.address
+
+        if address
+          "#{address.street_address}, #{address.city}, #{address.province}, #{address.postal_code}, #{address.country}"
+        else
+          "No address"
+        end
+      end
+    end
+
+    panel "Products Ordered" do
+      table_for order.order_items do
+        column "Product" do |item|
+          item.product.name
+        end
+
+        column "Size" do |item|
+          item.product_variant.size
+        end
+
+        column "Colour" do |item|
+          item.product_variant.colour
+        end
+
+        column :quantity
+
+        column "Unit Price" do |item|
+          number_to_currency(item.unit_price)
+        end
+
+        column "Line Total" do |item|
+          number_to_currency(item.line_total)
+        end
+      end
+    end
+
+    panel "Order Totals" do
+      attributes_table_for order do
+        row("Subtotal") do |o|
+          number_to_currency(o.subtotal)
+        end
+
+        row("GST") do |o|
+          number_to_currency(o.gst_amount)
+        end
+
+        row("PST") do |o|
+          number_to_currency(o.pst_amount)
+        end
+
+        row("HST") do |o|
+          number_to_currency(o.hst_amount)
+        end
+
+        row("Total Tax") do |o|
+          number_to_currency(o.tax_amount)
+        end
+
+        row("Grand Total") do |o|
+          number_to_currency(o.total_amount)
+        end
+      end
+    end
+
+    panel "Payment Information" do
+      attributes_table_for order do
+        row :stripe_checkout_session_id
+        row :stripe_payment_intent_id
+        row :paid_at
+      end
+    end
+  end
 end
