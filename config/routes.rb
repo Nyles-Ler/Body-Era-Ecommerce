@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'accounts/show'
   devise_for :users
   # Feature 1.1, 1.2
   devise_for :admin_users, ActiveAdmin::Devise.config
@@ -8,6 +9,10 @@ Rails.application.routes.draw do
 
   get "/about", to: "pages#show", defaults: { slug: "about" }, as: :about
   get "/contact", to: "pages#show", defaults: { slug: "contact" }, as: :contact
+
+  # Route for 3.1.5
+  resource :account, only: [:show]
+  resources :addresses, only: [:new, :create, :edit, :update]
 
   resources :products, only: [:index, :show]
   resources :categories, only: [:index, :show]

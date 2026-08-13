@@ -1,0 +1,71 @@
+<%= form_with model: address, local: true do |f| %>
+
+  <% if address.errors.any? %>
+    <div class="alert alert-danger">
+      <h2 class="h5">
+        <%= pluralize(address.errors.count, "error") %>
+        prevented this address from being saved:
+      </h2>
+
+      <ul class="mb-0">
+        <% address.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= f.label :street_address,
+        class: "form-label fw-bold" %>
+
+    <%= f.text_field :street_address,
+        class: "form-control" %>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <%= f.label :city,
+          class: "form-label fw-bold" %>
+
+      <%= f.text_field :city,
+          class: "form-control" %>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <%= f.label :province_record_id,
+          "Province",
+          class: "form-label fw-bold" %>
+
+      <%= f.collection_select :province_record_id,
+          @provinces,
+          :id,
+          :name,
+          { prompt: "Select a province" },
+          class: "form-select" %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <%= f.label :postal_code,
+          class: "form-label fw-bold" %>
+
+      <%= f.text_field :postal_code,
+          class: "form-control" %>
+    </div>
+
+    <div class="col-md-6 mb-4">
+      <%= f.label :country,
+          class: "form-label fw-bold" %>
+
+      <%= f.text_field :country,
+          value: address.country.presence || "Canada",
+          class: "form-control" %>
+    </div>
+  </div>
+
+  <%= f.submit address.persisted? ? "Update Address" : "Save Address",
+      class: "btn bodyera-button w-100 py-2" %>
+
+<% end %>

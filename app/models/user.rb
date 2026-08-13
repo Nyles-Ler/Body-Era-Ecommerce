@@ -12,6 +12,9 @@ class User < ApplicationRecord
   has_many :orders, dependent: :restrict_with_error
   has_many :reviews, dependent: :destroy
 
+  # Feature 3.1.5 customer province must be connected through a foreign key
+  belongs_to :province, optional: true
+
   # Feature 4.2.1
   validates :first_name, presence: true, length: { maximum: 50 }
   validates :last_name, presence: true, length: { maximum: 50 }
@@ -27,6 +30,7 @@ class User < ApplicationRecord
       last_name
       phone_number
       updated_at
+      province_id
     ]
   end
 
@@ -35,6 +39,7 @@ class User < ApplicationRecord
       addresses
       orders
       reviews
+      province
     ]
   end
 

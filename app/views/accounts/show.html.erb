@@ -1,0 +1,85 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+
+      <p class="bodyera-section-label mb-2">
+        MY BODYERA
+      </p>
+
+      <h1 class="fw-bold mb-4">
+        My Account
+      </h1>
+
+      <div class="card bodyera-detail-card mb-4">
+        <div class="card-body p-4">
+
+          <h2 class="h4 fw-bold mb-3">
+            Account Information
+          </h2>
+
+          <p class="mb-1">
+            <strong>Name:</strong>
+            <%= @user.first_name %> <%= @user.last_name %>
+          </p>
+
+          <p class="mb-1">
+            <strong>Email:</strong>
+            <%= @user.email %>
+          </p>
+
+          <p class="mb-0">
+            <strong>Phone:</strong>
+            <%= @user.phone_number.presence || "Not provided" %>
+          </p>
+
+        </div>
+      </div>
+
+      <div class="card bodyera-detail-card">
+        <div class="card-body p-4">
+
+          <h2 class="h4 fw-bold mb-3">
+            Saved Shipping Address
+          </h2>
+
+          <% if @address %>
+
+            <p class="mb-1">
+              <%= @address.street_address %>
+            </p>
+
+            <p class="mb-1">
+              <%= @address.city %>,
+              <%= @address.province %>
+            </p>
+
+            <p class="mb-1">
+              <%= @address.postal_code %>
+            </p>
+
+            <p class="mb-4">
+              <%= @address.country %>
+            </p>
+
+            <%= link_to "Edit Address",
+                edit_address_path(@address),
+                class: "btn bodyera-button" %>
+
+          <% else %>
+
+            <p class="text-muted">
+              You do not have a saved shipping address yet.
+            </p>
+
+            <%= link_to "Add Address",
+                new_address_path,
+                class: "btn bodyera-button" %>
+
+          <% end %>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

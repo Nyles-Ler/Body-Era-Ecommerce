@@ -14,6 +14,7 @@ class CheckoutsController < ApplicationController
 
     if user_signed_in?
       @checkout_user = current_user
+      @checkout_address = current_user.addresses.order(created_at: :desc).first
     end
   end
 
@@ -125,14 +126,20 @@ class CheckoutsController < ApplicationController
   end
 
   def create_address!(user, province)
-    user.addresses.create!(
+    address = user.addresses.find_or_initialize_by(
       street_address: checkout_params[:street_address],
       city: checkout_params[:city],
-      province: province.name,
       province_record: province,
       postal_code: checkout_params[:postal_code],
       country: "Canada"
     )
+
+    address.province = province.name
+    address.save!
+
+    user.update!(province: province) if user_signed_in?
+
+    address
   end
 
   def create_order!(user, address, province)

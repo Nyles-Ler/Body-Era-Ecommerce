@@ -1,5 +1,8 @@
 class Province < ApplicationRecord
 
+  # Feature 3.1.5 province - users - addresses
+  has_many :users, dependent: :nullify
+
   belongs_to :province_record,
              class_name: "Province",
              optional: true

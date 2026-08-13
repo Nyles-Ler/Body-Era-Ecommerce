@@ -27,9 +27,9 @@
       <div class="d-flex align-items-center gap-3 ms-lg-4">
 
         <% if user_signed_in? %>
-          <span class="bodyera-nav-link text-nowrap">
-            Hi, <%= current_user.first_name %>
-          </span>
+          <%= link_to "Hi, #{current_user.first_name}",
+              account_path,
+              class: "bodyera-nav-link text-decoration-none text-nowrap" %>
 
           <%= button_to "Logout",
               destroy_user_session_path,
