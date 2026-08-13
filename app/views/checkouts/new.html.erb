@@ -75,7 +75,8 @@
                 class: "form-label" %>
 
             <%= form.text_field :street_address,
-                value: params.dig(:checkout, :street_address),
+                value: params.dig(:checkout, :street_address) ||
+                      @checkout_address&.street_address,
                 class: "form-control",
                 required: true %>
           </div>
@@ -86,7 +87,8 @@
                 class: "form-label" %>
 
             <%= form.text_field :city,
-                value: params.dig(:checkout, :city),
+                value: params.dig(:checkout, :city) ||
+                      @checkout_address&.city,
                 class: "form-control",
                 required: true %>
           </div>
@@ -102,7 +104,9 @@
                 :name,
                 {
                   prompt: "Select a province",
-                  selected: params.dig(:checkout, :province_id)
+                  selected: params.dig(:checkout, :province_id) ||
+                            @checkout_address&.province_record_id ||
+                            @checkout_user&.province_id
                 },
                 {
                   class: "form-select",
@@ -116,7 +120,8 @@
                 class: "form-label" %>
 
             <%= form.text_field :postal_code,
-                value: params.dig(:checkout, :postal_code),
+                value: params.dig(:checkout, :postal_code) ||
+                      @checkout_address&.postal_code,
                 placeholder: "R3B 1K9",
                 class: "form-control",
                 required: true %>
