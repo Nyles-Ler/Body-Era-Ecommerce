@@ -1,95 +1,98 @@
 <!-- Product Index -->
 <!-- Displays all active products and supports simple keyword searching -->
+<div class="container-xl py-5">
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-  <div>
-    <h1 class="mb-1">Shop Products</h1>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="mb-1">Shop Products</h1>
 
-    <p class="text-muted mb-0">
-      Browse the BodyEra fitness apparel collection.
-    </p>
+      <p class="text-muted mb-0">
+        Browse the BodyEra fitness apparel collection.
+      </p>
+    </div>
+
+    <span class="badge bodyera-badge fs-6">
+      <%= pluralize(@products.total_count, "product") %>
+    </span>
   </div>
 
-  <span class="badge bodyera-badge fs-6">
-    <%= pluralize(@products.total_count, "product") %>
-  </span>
-</div>
+  <!-- Feature 2.4 - Product Filters -->
+  <div class="d-flex flex-wrap gap-2 mb-4">
+    <%= link_to "All Products",
+        products_path,
+        class: "btn #{params[:filter].blank? ? 'bodyera-button' : 'btn-outline-secondary'}" %>
 
-<!-- Feature 2.4 - Product Filters -->
-<div class="d-flex flex-wrap gap-2 mb-4">
-  <%= link_to "All Products",
-      products_path,
-      class: "btn #{params[:filter].blank? ? 'bodyera-button' : 'btn-outline-secondary'}" %>
+    <%= link_to "New Products",
+        products_path(filter: "new"),
+        class: "btn #{params[:filter] == 'new' ? 'bodyera-button' : 'btn-outline-secondary'}" %>
 
-  <%= link_to "New Products",
-      products_path(filter: "new"),
-      class: "btn #{params[:filter] == 'new' ? 'bodyera-button' : 'btn-outline-secondary'}" %>
+    <%= link_to "Recently Updated",
+        products_path(filter: "recently_updated"),
+        class: "btn #{params[:filter] == 'recently_updated' ? 'bodyera-button' : 'btn-outline-secondary'}" %>
+  </div>
 
-  <%= link_to "Recently Updated",
-      products_path(filter: "recently_updated"),
-      class: "btn #{params[:filter] == 'recently_updated' ? 'bodyera-button' : 'btn-outline-secondary'}" %>
-</div>
-
-<% if params[:search].present? || params[:category_id].present? %>
-  <div class="alert bodyera-alert mb-4">
-    <% if params[:search].present? %>
-      Showing results for:
-      <strong><%= params[:search] %></strong>
-    <% else %>
-      Showing products
-    <% end %>
-
-    <% if params[:category_id].present? %>
-      <% selected_category = Category.find_by(id: params[:category_id]) %>
-
-      <% if selected_category %>
-        in:
-        <strong><%= selected_category.name %></strong>
+  <% if params[:search].present? || params[:category_id].present? %>
+    <div class="alert bodyera-alert mb-4">
+      <% if params[:search].present? %>
+        Showing results for:
+        <strong><%= params[:search] %></strong>
+      <% else %>
+        Showing products
       <% end %>
-    <% end %>
 
-    <%= link_to "Clear search",
-        products_path,
-        class: "ms-2 bodyera-link" %>
+      <% if params[:category_id].present? %>
+        <% selected_category = Category.find_by(id: params[:category_id]) %>
+
+        <% if selected_category %>
+          in:
+          <strong><%= selected_category.name %></strong>
+        <% end %>
+      <% end %>
+
+      <%= link_to "Clear search",
+          products_path,
+          class: "ms-2 bodyera-link" %>
+    </div>
+  <% end %>
+
+  <% if params[:filter] == "new" %>
+    <div class="alert bodyera-alert mb-4">
+      Showing products added within the past 3 days.
+    </div>
+  <% elsif params[:filter] == "recently_updated" %>
+    <div class="alert bodyera-alert mb-4">
+      Showing products updated within the past 3 days.
+    </div>
+  <% end %>
+
+  <% if @products.any? %>
+  <div class="row g-4">
+    <%= render partial: "products/product_card",
+              collection: @products,
+              as: :product %>
   </div>
-<% end %>
+  <% else %>
+    <div class="text-center py-5">
+      <h2 class="h4">No products found</h2>
 
-<% if params[:filter] == "new" %>
-  <div class="alert bodyera-alert mb-4">
-    Showing products added within the past 3 days.
+      <p class="text-muted">
+        Try another search term or view the complete product collection.
+      </p>
+
+      <%= link_to "View All Products",
+          products_path,
+          class: "btn bodyera-button" %>
+    </div>
+  <% end %>
+
+  <!-- Feature 2.6 Category dropdown search -->
+  <div class="d-flex justify-content-center mt-5">
+    <%= paginate @products,
+      params: {
+        search: params[:search],
+        category_id: params[:category_id],
+        filter: params[:filter]
+      } %>
   </div>
-<% elsif params[:filter] == "recently_updated" %>
-  <div class="alert bodyera-alert mb-4">
-    Showing products updated within the past 3 days.
-  </div>
-<% end %>
 
-<% if @products.any? %>
-<div class="row g-4">
-  <%= render partial: "products/product_card",
-             collection: @products,
-             as: :product %>
-</div>
-<% else %>
-  <div class="text-center py-5">
-    <h2 class="h4">No products found</h2>
-
-    <p class="text-muted">
-      Try another search term or view the complete product collection.
-    </p>
-
-    <%= link_to "View All Products",
-        products_path,
-        class: "btn bodyera-button" %>
-  </div>
-<% end %>
-
-<!-- Feature 2.6 Category dropdown search -->
-<div class="d-flex justify-content-center mt-5">
-  <%= paginate @products,
-    params: {
-      search: params[:search],
-      category_id: params[:category_id],
-      filter: params[:filter]
-    } %>
 </div>

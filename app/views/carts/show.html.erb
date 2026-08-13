@@ -1,134 +1,138 @@
 <!-- Feature 3.1.1 and 3.1.2 - Session shopping cart -->
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-  <div>
-    <h1 class="mb-1">Shopping Cart</h1>
+<div class="container-xl py-5">
 
-    <p class="text-muted mb-0">
-      Review and update the products in your cart.
-    </p>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="mb-1">Shopping Cart</h1>
+
+      <p class="text-muted mb-0">
+        Review and update the products in your cart.
+      </p>
+    </div>
   </div>
-</div>
 
-<% if @variants.any? %>
-  <% cart_total = 0 %>
+  <% if @variants.any? %>
+    <% cart_total = 0 %>
 
-  <div class="row g-4">
-    <div class="col-lg-8">
-      <% @variants.each do |variant| %>
-        <% quantity = session[:cart][variant.id.to_s].to_i %>
-        <% subtotal = variant.product.current_price * quantity %>
-        <% cart_total += subtotal %>
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <% @variants.each do |variant| %>
+          <% quantity = session[:cart][variant.id.to_s].to_i %>
+          <% subtotal = variant.product.current_price * quantity %>
+          <% cart_total += subtotal %>
 
-        <div class="card bodyera-detail-card mb-3">
-          <div class="card-body">
-            <div class="row align-items-center g-3">
-              <div class="col-md-3">
-                <% if variant.product.images.attached? %>
-                  <%= image_tag variant.product.images.first.variant(
-                        resize_to_fill: [300, 300]
-                      ),
-                      class: "img-fluid rounded",
-                      alt: variant.product.name %>
-                <% else %>
-                  <div class="bg-light rounded d-flex align-items-center justify-content-center"
-                       style="height: 150px;">
-                    <span class="text-muted">No image</span>
-                  </div>
-                <% end %>
-              </div>
+          <div class="card bodyera-detail-card mb-3">
+            <div class="card-body">
+              <div class="row align-items-center g-3">
+                <div class="col-md-3">
+                  <% if variant.product.images.attached? %>
+                    <%= image_tag variant.product.images.first.variant(
+                          resize_to_fill: [300, 300]
+                        ),
+                        class: "img-fluid rounded",
+                        alt: variant.product.name %>
+                  <% else %>
+                    <div class="bg-light rounded d-flex align-items-center justify-content-center"
+                        style="height: 150px;">
+                      <span class="text-muted">No image</span>
+                    </div>
+                  <% end %>
+                </div>
 
-              <div class="col-md-5">
-                <h2 class="h5 mb-2">
-                  <%= link_to variant.product.name,
-                      product_path(variant.product),
-                      class: "bodyera-link text-decoration-none" %>
-                </h2>
+                <div class="col-md-5">
+                  <h2 class="h5 mb-2">
+                    <%= link_to variant.product.name,
+                        product_path(variant.product),
+                        class: "bodyera-link text-decoration-none" %>
+                  </h2>
 
-                <p class="mb-1">
-                  <strong>Size:</strong>
-                  <%= variant.size %>
-                </p>
+                  <p class="mb-1">
+                    <strong>Size:</strong>
+                    <%= variant.size %>
+                  </p>
 
-                <p class="mb-1">
-                  <strong>Colour:</strong>
-                  <%= variant.colour %>
-                </p>
+                  <p class="mb-1">
+                    <strong>Colour:</strong>
+                    <%= variant.colour %>
+                  </p>
 
-                <p class="bodyera-price fw-bold mb-0">
-                  <%= number_to_currency(variant.product.current_price) %>
-                  each
-                </p>
-              </div>
+                  <p class="bodyera-price fw-bold mb-0">
+                    <%= number_to_currency(variant.product.current_price) %>
+                    each
+                  </p>
+                </div>
 
-              <div class="col-md-4">
-                <%= form_with url: cart_path,
-                              method: :patch,
-                              local: true,
-                              class: "mb-2" do %>
+                <div class="col-md-4">
+                  <%= form_with url: cart_path,
+                                method: :patch,
+                                local: true,
+                                class: "mb-2" do %>
 
-                  <%= hidden_field_tag :variant_id, variant.id %>
+                    <%= hidden_field_tag :variant_id, variant.id %>
 
-                  <div class="input-group">
-                    <%= number_field_tag :quantity,
-                        quantity,
-                        min: 1,
-                        max: variant.stock_quantity,
-                        class: "form-control",
-                        aria: { label: "Quantity" } %>
+                    <div class="input-group">
+                      <%= number_field_tag :quantity,
+                          quantity,
+                          min: 1,
+                          max: variant.stock_quantity,
+                          class: "form-control",
+                          aria: { label: "Quantity" } %>
 
-                    <%= submit_tag "Update",
-                        class: "btn btn-outline-secondary" %>
-                  </div>
-                <% end %>
+                      <%= submit_tag "Update",
+                          class: "btn btn-outline-secondary" %>
+                    </div>
+                  <% end %>
 
-                <%= button_to "Remove",
-                    remove_cart_path(variant_id: variant.id),
-                    method: :delete,
-                    class: "btn btn-outline-danger w-100" %>
+                  <%= button_to "Remove",
+                      remove_cart_path(variant_id: variant.id),
+                      method: :delete,
+                      class: "btn btn-outline-danger w-100" %>
 
-                <p class="fw-bold mt-3 mb-0">
-                  Subtotal:
-                  <%= number_to_currency(subtotal) %>
-                </p>
+                  <p class="fw-bold mt-3 mb-0">
+                    Subtotal:
+                    <%= number_to_currency(subtotal) %>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      <% end %>
-    </div>
+        <% end %>
+      </div>
 
-    <div class="col-lg-4">
-      <div class="card bodyera-detail-card">
-        <div class="card-body">
-          <h2 class="h4 mb-3">Order Summary</h2>
+      <div class="col-lg-4">
+        <div class="card bodyera-detail-card">
+          <div class="card-body">
+            <h2 class="h4 mb-3">Order Summary</h2>
 
-          <div class="d-flex justify-content-between fs-5 fw-bold">
-            <span>Cart Total</span>
-            <span><%= number_to_currency(cart_total) %></span>
+            <div class="d-flex justify-content-between fs-5 fw-bold">
+              <span>Cart Total</span>
+              <span><%= number_to_currency(cart_total) %></span>
+            </div>
+
+            <p class="text-muted mt-3">
+              Taxes and shipping will be calculated during checkout.
+            </p>
+
+            <%= link_to "Checkout",
+                new_cart_checkout_path,
+                class: "btn bodyera-button w-100" %>
           </div>
-
-          <p class="text-muted mt-3">
-            Taxes and shipping will be calculated during checkout.
-          </p>
-
-          <%= link_to "Checkout",
-              new_cart_checkout_path,
-              class: "btn bodyera-button w-100" %>
         </div>
       </div>
     </div>
-  </div>
-<% else %>
-  <div class="text-center py-5">
-    <h2 class="h4">Your cart is empty</h2>
+  <% else %>
+    <div class="text-center py-5">
+      <h2 class="h4">Your cart is empty</h2>
 
-    <p class="text-muted">
-      Browse the BodyEra collection and add a product to begin.
-    </p>
+      <p class="text-muted">
+        Browse the BodyEra collection and add a product to begin.
+      </p>
 
-    <%= link_to "Shop Products",
-        products_path,
-        class: "btn bodyera-button" %>
-  </div>
-<% end %>
+      <%= link_to "Shop Products",
+          products_path,
+          class: "btn bodyera-button" %>
+    </div>
+  <% end %>
+
+</div>

@@ -1,6 +1,6 @@
 <div class="container py-5">
   <div class="row justify-content-center">
-    <div class="col-lg-8">
+    <div class="col-xl-10">
 
       <p class="bodyera-section-label mb-2">
         MY BODYERA
@@ -10,75 +10,101 @@
         My Account
       </h1>
 
-      <div class="card bodyera-detail-card mb-4">
-        <div class="card-body p-4">
+      <div class="row g-4">
 
-          <h2 class="h4 fw-bold mb-3">
-            Account Information
-          </h2>
+        <!-- Account Information -->
+        <div class="col-lg-6">
+          <div class="card bodyera-detail-card h-100">
+            <div class="card-body p-4">
 
-          <p class="mb-1">
-            <strong>Name:</strong>
-            <%= @user.first_name %> <%= @user.last_name %>
-          </p>
+              <h2 class="h4 fw-bold mb-4">
+                Account Information
+              </h2>
 
-          <p class="mb-1">
-            <strong>Email:</strong>
-            <%= @user.email %>
-          </p>
+              <p class="mb-2">
+                <strong>Name:</strong><br>
+                <%= @user.first_name %> <%= @user.last_name %>
+              </p>
 
-          <p class="mb-0">
-            <strong>Phone:</strong>
-            <%= @user.phone_number.presence || "Not provided" %>
-          </p>
+              <p class="mb-2">
+                <strong>Email:</strong><br>
+                <%= @user.email %>
+              </p>
 
+              <p class="mb-0">
+                <strong>Phone:</strong><br>
+                <%= @user.phone_number.presence || "Not provided" %>
+              </p>
+
+            </div>
+          </div>
         </div>
+
+
+        <!-- Shipping Address -->
+        <div class="col-lg-6">
+          <div class="card bodyera-detail-card h-100">
+            <div class="card-body p-4 d-flex flex-column">
+
+              <h2 class="h4 fw-bold mb-4">
+                Saved Shipping Address
+              </h2>
+
+              <% if @address %>
+
+                <div class="mb-4">
+                  <p class="mb-1">
+                    <%= @address.street_address %>
+                  </p>
+
+                  <p class="mb-1">
+                    <%= @address.city %>,
+                    <%= @address.province %>
+                  </p>
+
+                  <p class="mb-1">
+                    <%= @address.postal_code %>
+                  </p>
+
+                  <p class="mb-0">
+                    <%= @address.country %>
+                  </p>
+                </div>
+
+                <div class="mt-auto">
+                  <%= link_to "Edit Address",
+                      edit_address_path(@address),
+                      class: "btn bodyera-button" %>
+                </div>
+
+              <% else %>
+
+                <p class="text-muted">
+                  You do not have a saved shipping address yet.
+                </p>
+
+                <div class="mt-auto">
+                  <%= link_to "Add Address",
+                      new_address_path,
+                      class: "btn bodyera-button" %>
+                </div>
+
+              <% end %>
+
+            </div>
+          </div>
+        </div>
+
       </div>
 
-      <div class="card bodyera-detail-card">
-        <div class="card-body p-4">
-
-          <h2 class="h4 fw-bold mb-3">
-            Saved Shipping Address
-          </h2>
-
-          <% if @address %>
-
-            <p class="mb-1">
-              <%= @address.street_address %>
-            </p>
-
-            <p class="mb-1">
-              <%= @address.city %>,
-              <%= @address.province %>
-            </p>
-
-            <p class="mb-1">
-              <%= @address.postal_code %>
-            </p>
-
-            <p class="mb-4">
-              <%= @address.country %>
-            </p>
-
-            <%= link_to "Edit Address",
-                edit_address_path(@address),
-                class: "btn bodyera-button" %>
-
-          <% else %>
-
-            <p class="text-muted">
-              You do not have a saved shipping address yet.
-            </p>
-
-            <%= link_to "Add Address",
-                new_address_path,
-                class: "btn bodyera-button" %>
-
-          <% end %>
-
-        </div>
-      </div>
+      <div class="mt-4 pt-3 border-top">
+  <%= button_to destroy_user_session_path,
+      method: :delete,
+      class: "btn btn-outline-secondary" do %>
+    <i class="bi bi-box-arrow-right me-2"></i>
+    Log Out
+  <% end %>
+</div>
 
     </div>
   </div>

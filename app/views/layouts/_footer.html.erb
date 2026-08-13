@@ -1,19 +1,156 @@
 <footer class="bodyera-footer">
-  <div class="container text-center">
+  <div class="container-fluid px-4 px-lg-5">
 
-    <h5 class="bodyera-text fw-bold mb-2">
-      <%= link_to "BodyEra Fitness",
-      root_path,
-      class: "navbar-brand bodyera-text fw-bold" %>
-    </h5>
+    <div class="row g-4">
 
-    <p class="mb-3 footer-description">
-      Premium fitness apparel designed for athletes who demand performance, comfort, and style.
-    </p>
+      <!-- BodyEra -->
+      <div class="col-lg-4 col-md-6">
+        <%= link_to "BodyEra",
+            root_path,
+            class: "bodyera-text fw-bold fs-4 text-decoration-none" %>
 
-    <small class="footer-copyright">
-      © <%= Date.current.year %> BodyEra Fitness • Built by Jordan Lerat
-    </small>
+        <p class="footer-description mt-3 mb-3">
+          Performance apparel built for the work you put in.
+          Train harder. Push further. Build your era.
+        </p>
+
+        <!-- Social Media -->
+        <div class="d-flex gap-3">
+          <a href="#" class="bodyera-link fs-5" aria-label="Instagram">
+            <i class="bi bi-instagram"></i>
+          </a>
+
+          <a href="#" class="bodyera-link fs-5" aria-label="Facebook">
+            <i class="bi bi-facebook"></i>
+          </a>
+
+          <a href="#" class="bodyera-link fs-5" aria-label="TikTok">
+            <i class="bi bi-tiktok"></i>
+          </a>
+        </div>
+      </div>
+
+
+      <!-- Shop -->
+      <div class="col-6 col-md-3 col-lg-2">
+        <h2 class="h6 text-white fw-bold text-uppercase mb-3">
+          Shop
+        </h2>
+
+        <div class="d-flex flex-column gap-2">
+          <%= link_to "Products",
+              products_path,
+              class: "bodyera-link text-decoration-none" %>
+
+          <%= link_to "Categories",
+              categories_path,
+              class: "bodyera-link text-decoration-none" %>
+
+          <%= link_to "Cart",
+              cart_path,
+              class: "bodyera-link text-decoration-none" %>
+        </div>
+      </div>
+
+
+      <!-- Help -->
+      <div class="col-6 col-md-3 col-lg-2">
+        <h2 class="h6 text-white fw-bold text-uppercase mb-3">
+          Help
+        </h2>
+
+        <div class="d-flex flex-column gap-2">
+          <%= link_to "Contact",
+              contact_path,
+              class: "bodyera-link text-decoration-none" %>
+
+          <%= link_to "About",
+              about_path,
+              class: "bodyera-link text-decoration-none" %>
+
+          <a href="#" class="bodyera-link text-decoration-none">
+            Shipping
+          </a>
+
+          <a href="#" class="bodyera-link text-decoration-none">
+            Returns
+          </a>
+        </div>
+      </div>
+
+
+      <!-- Account -->
+      <div class="col-6 col-md-3 col-lg-2">
+        <h2 class="h6 text-white fw-bold text-uppercase mb-3">
+          Account
+        </h2>
+
+        <div class="d-flex flex-column gap-2">
+
+          <% if user_signed_in? %>
+
+            <%= link_to "My Account",
+                account_path,
+                class: "bodyera-link text-decoration-none" %>
+
+            <%= button_to "Logout",
+                destroy_user_session_path,
+                method: :delete,
+                class: "btn btn-link bodyera-link text-decoration-none p-0 text-start" %>
+
+          <% else %>
+
+            <%= link_to "Login",
+                new_user_session_path,
+                class: "bodyera-link text-decoration-none" %>
+
+            <%= link_to "Create Account",
+                new_user_registration_path,
+                class: "bodyera-link text-decoration-none" %>
+
+          <% end %>
+
+        </div>
+      </div>
+
+
+      <!-- Payment Methods -->
+      <div class="col-6 col-md-3 col-lg-2">
+        <h2 class="h6 text-white fw-bold text-uppercase mb-3">
+          We Accept
+        </h2>
+
+        <div class="d-flex align-items-center gap-3 fs-2">
+          <i class="bi bi-credit-card" title="Credit Card"></i>
+          <i class="bi bi-paypal" title="PayPal"></i>
+          <i class="bi bi-apple" title="Apple Pay"></i>
+          <i class="bi bi-google" title="Google Pay"></i>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="border-secondary my-4">
+
+
+    <!-- Bottom Footer -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+
+      <p class="footer-copyright mb-0">
+        &copy; <%= Time.current.year %> BodyEra. All rights reserved.
+      </p>
+
+      <div class="d-flex gap-3">
+        <a href="#" class="footer-copyright text-decoration-none">
+          Privacy Policy
+        </a>
+
+        <a href="#" class="footer-copyright text-decoration-none">
+          Terms
+        </a>
+      </div>
+
+    </div>
 
   </div>
 </footer>

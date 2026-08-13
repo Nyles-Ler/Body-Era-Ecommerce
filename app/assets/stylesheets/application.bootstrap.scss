@@ -1,14 +1,121 @@
+@use "sass:color";
+
 @import "bootstrap/scss/bootstrap";
 @import "bootstrap-icons/font/bootstrap-icons";
+
+/* ---------- Variables ---------- */
 
 $bodyera-accent: #6b5050;
 $bodyera-dark: #111111;
 $bodyera-light: #f8f9fa;
+$bodyera-spacing: 1rem;
+
+
+/* ---------- Inheritance ---------- */
+
+%bodyera-hero-button-base {
+  padding: $bodyera-spacing * 0.65 $bodyera-spacing * 1.5;
+  font-weight: 700;
+  border-radius: 0.3rem;
+}
+
+
+/* ---------- Global ---------- */
 
 body {
   background-color: $bodyera-light;
   font-family: "Science Gothic", sans-serif;
 }
+
+
+/* ---------- Announcement Bar ---------- */
+
+.bodyera-announcement {
+  background-color: $bodyera-accent;
+  color: #ffffff;
+  padding: 0.45rem 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08rem;
+  text-transform: uppercase;
+}
+
+
+/* ---------- Navbar ---------- */
+
+.bodyera-navbar {
+  background-color: $bodyera-dark;
+}
+
+.bodyera-text {
+  color: $bodyera-accent;
+  font-family: "Science Gothic", sans-serif;
+  letter-spacing: 0.08rem;
+  text-transform: uppercase;
+}
+
+.bodyera-text:hover {
+  color: color.adjust($bodyera-accent, $lightness: 12%);
+}
+
+.bodyera-nav-link {
+  color: #d5d5d5;
+  font-family: "Science Gothic", sans-serif;
+}
+
+.bodyera-nav-link:hover {
+  color: $bodyera-accent;
+}
+
+
+/* ---------- Buttons ---------- */
+
+.bodyera-button {
+  background-color: $bodyera-accent;
+  border-color: $bodyera-accent;
+  color: white;
+}
+
+.bodyera-button:hover {
+  background-color: color.adjust($bodyera-accent, $lightness: -8%);
+  border-color: color.adjust($bodyera-accent, $lightness: -8%);
+}
+
+.bodyera-hero-button {
+  @extend %bodyera-hero-button-base;
+
+  background-color: $bodyera-accent;
+  border: 2px solid $bodyera-accent;
+  color: white;
+}
+
+.bodyera-hero-button:hover {
+  background-color: color.adjust($bodyera-accent, $lightness: -8%);
+  border-color: color.adjust($bodyera-accent, $lightness: -8%);
+  color: white;
+}
+
+.bodyera-hero-button-outline {
+  @extend %bodyera-hero-button-base;
+
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+}
+
+.bodyera-hero-button-outline:hover {
+  background-color: white;
+  color: $bodyera-dark;
+}
+
+
+/* ---------- Main ---------- */
+
+.bodyera-main {
+  background-color: $bodyera-light;
+  min-height: 80vh;
+}
+
 
 /* ---------- Home Hero ---------- */
 
@@ -79,175 +186,6 @@ body {
   flex-wrap: wrap;
 }
 
-.bodyera-hero-button {
-  background-color: $bodyera-accent;
-  border: 2px solid $bodyera-accent;
-  color: white;
-  padding: 0.85rem 1.75rem;
-  font-weight: 700;
-}
-
-.bodyera-hero-button:hover {
-  background-color: darken($bodyera-accent, 8%);
-  border-color: darken($bodyera-accent, 8%);
-  color: white;
-}
-
-.bodyera-hero-button-outline {
-  background-color: transparent;
-  border: 2px solid white;
-  color: white;
-  padding: 0.85rem 1.75rem;
-  font-weight: 700;
-}
-
-.bodyera-hero-button-outline:hover {
-  background-color: white;
-  color: $bodyera-dark;
-}
-
-@media (max-width: 768px) {
-  .bodyera-hero {
-    min-height: 600px;
-    background-position: 65% center;
-  }
-
-  .bodyera-hero-overlay {
-    background: rgba(0, 0, 0, 0.6);
-  }
-
-  .bodyera-hero-content {
-    padding: 4rem 1.5rem;
-  }
-
-  .bodyera-hero-content h1 {
-    font-size: 3rem;
-  }
-}
-
-/* ---------- Navbar ---------- */
-
-.bodyera-navbar {
-  background-color: $bodyera-dark;
-}
-
-.bodyera-text {
-  color: $bodyera-accent;
-  font-family: "Science Gothic", sans-serif;
-  letter-spacing: 0.08rem;
-  text-transform: uppercase;
-}
-
-.bodyera-text:hover {
-  color: lighten($bodyera-accent, 12%);
-}
-
-.bodyera-nav-link {
-  color: #d5d5d5;
-  font-family: "Science Gothic", sans-serif;
-}
-
-.bodyera-nav-link:hover {
-  color: $bodyera-accent;
-}
-
-.bodyera-button {
-  background-color: $bodyera-accent;
-  border-color: $bodyera-accent;
-  color: white;
-}
-
-.bodyera-button:hover {
-  background-color: darken($bodyera-accent, 8%);
-  border-color: darken($bodyera-accent, 8%);
-}
-
-/* ---------- Main ---------- */
-
-.bodyera-main {
-  background-color: $bodyera-light;
-  min-height: 80vh;
-}
-
-/* ---------- Footer ---------- */
-
-.bodyera-footer {
-  background-color: $bodyera-dark;
-  border-top: 2px solid $bodyera-accent;
-  padding: 2.5rem 0;
-}
-
-.footer-description {
-  color: #b8b8b8;
-  max-width: 550px;
-  margin: 0 auto;
-}
-
-.footer-copyright {
-  color: #8f8f8f;
-}
-
-/* ---------- Add to Cart Badges ---------- */
-.bodyera-option {
-    background: #6d5151;
-    color: white;
-    border-radius: 999px;
-}
-
-/* ---------- Kaminari ---------- */
-.pagination {
-  display: flex;
-  justify-content: center;
-  gap: 0.35rem;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  padding-left: 0;
-  list-style: none;
-
-  .page-item {
-    .page-link {
-      color: $bodyera-accent;
-      background-color: #ffffff;
-      border: 1px solid $bodyera-accent;
-      border-radius: 0.35rem;
-      padding: 0.55rem 0.9rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.2s ease;
-
-      &:hover {
-        color: #ffffff;
-        background-color: $bodyera-accent;
-        border-color: $bodyera-accent;
-      }
-    }
-
-    &.active .page-link {
-      color: #ffffff;
-      background-color: $bodyera-accent;
-      border-color: $bodyera-accent;
-    }
-
-    &.disabled .page-link {
-      color: #999999;
-      background-color: $bodyera-light;
-      border-color: #dddddd;
-      pointer-events: none;
-    }
-  }
-}
-
-/* ---------- Announcement Bar ---------- */
-
-.bodyera-announcement {
-  background-color: $bodyera-accent;
-  color: #ffffff;
-  padding: 0.45rem 0;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.08rem;
-  text-transform: uppercase;
-}
 
 /* ---------- Homepage Category Carousel ---------- */
 
@@ -302,13 +240,118 @@ body {
   right: -24px;
 }
 
-/* ---------- BodyEra Links ---------- */
+
+/* ---------- Category ---------- */
+
+.bodyera-category-label {
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+
+/* ---------- Product Options ---------- */
+
+.bodyera-option {
+  background: #6d5151;
+  color: white;
+  border-radius: 999px;
+}
+
+
+/* ---------- Links ---------- */
 
 .bodyera-link {
   color: $bodyera-accent;
   transition: color 0.2s ease;
 
   &:hover {
-    color: darken($bodyera-accent, 10%);
+    color: color.adjust($bodyera-accent, $lightness: -10%);
+  }
+}
+
+
+/* ---------- Pagination ---------- */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.35rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  padding-left: 0;
+  list-style: none;
+
+  .page-item {
+    .page-link {
+      color: $bodyera-accent;
+      background-color: #ffffff;
+      border: 1px solid $bodyera-accent;
+      border-radius: 0.35rem;
+      padding: 0.55rem 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+
+      &:hover {
+        color: #ffffff;
+        background-color: $bodyera-accent;
+        border-color: $bodyera-accent;
+      }
+    }
+
+    &.active .page-link {
+      color: #ffffff;
+      background-color: $bodyera-accent;
+      border-color: $bodyera-accent;
+    }
+
+    &.disabled .page-link {
+      color: #999999;
+      background-color: $bodyera-light;
+      border-color: #dddddd;
+      pointer-events: none;
+    }
+  }
+}
+
+
+/* ---------- Footer ---------- */
+
+.bodyera-footer {
+  background-color: $bodyera-dark;
+  border-top: 2px solid $bodyera-accent;
+  padding: 2.5rem 0;
+}
+
+.footer-description {
+  color: #b8b8b8;
+  max-width: 550px;
+}
+
+.footer-copyright {
+  color: #8f8f8f;
+}
+
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 768px) {
+  .bodyera-hero {
+    min-height: 600px;
+    background-position: 65% center;
+  }
+
+  .bodyera-hero-overlay {
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .bodyera-hero-content {
+    padding: 4rem 1.5rem;
+  }
+
+  .bodyera-hero-content h1 {
+    font-size: 3rem;
   }
 }

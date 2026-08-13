@@ -1,56 +1,60 @@
 <!-- Categories Index -->
 <!-- Displays all product categories -->
 
-<div class="mb-4">
-  <h1 class="mb-1">Shop by Category</h1>
+<div class="container-xl py-5">
 
-  <p class="text-muted mb-0">
-    Browse BodyEra products by apparel type.
-  </p>
-</div>
+  <div class="mb-4">
+    <h1 class="mb-1">Shop by Category</h1>
 
-<div class="row g-4">
-  <% @categories.each do |category| %>
-    <div class="col-sm-6 col-lg-4">
-      <div class="card bodyera-category-card h-100">
+    <p class="text-muted mb-0">
+      Browse BodyEra products by apparel type.
+    </p>
+  </div>
 
-        <% featured_product = category.products.where(active: true)
-                                              .includes(images_attachments: :blob)
-                                              .first %>
+  <div class="row g-4">
+    <% @categories.each do |category| %>
+      <div class="col-sm-6 col-lg-4">
+        <div class="card bodyera-category-card h-100">
 
-        <% if featured_product&.images&.attached? %>
-          <%= image_tag featured_product.images.first.variant(
-                resize_to_fill: [600, 350]
-              ),
-              class: "card-img-top",
-              style: "height: 220px; object-fit: cover;",
-              alt: category.name %>
-        <% else %>
-          <div class="bg-light d-flex align-items-center justify-content-center"
-              style="height: 220px;">
-            <span class="text-muted">No image available</span>
+          <% featured_product = category.products.where(active: true)
+                                                .includes(images_attachments: :blob)
+                                                .first %>
+
+          <% if featured_product&.images&.attached? %>
+            <%= image_tag featured_product.images.first.variant(
+                  resize_to_fill: [600, 350]
+                ),
+                class: "card-img-top",
+                style: "height: 220px; object-fit: cover;",
+                alt: category.name %>
+          <% else %>
+            <div class="bg-light d-flex align-items-center justify-content-center"
+                style="height: 220px;">
+              <span class="text-muted">No image available</span>
+            </div>
+          <% end %>
+
+          <div class="card-body d-flex flex-column">
+
+            <h2 class="h4">
+              <%= category.name %>
+            </h2>
+
+            <p class="text-muted">
+              <%= category.description %>
+            </p>
+
+            <p class="bodyera-category-count mt-auto">
+              <%= pluralize(category.products.where(active: true).count, "product") %>
+            </p>
+
+            <%= link_to "View Category",
+                category_path(category),
+                class: "btn bodyera-button w-100" %>
           </div>
-        <% end %>
-
-        <div class="card-body d-flex flex-column">
-
-          <h2 class="h4">
-            <%= category.name %>
-          </h2>
-
-          <p class="text-muted">
-            <%= category.description %>
-          </p>
-
-          <p class="bodyera-category-count mt-auto">
-            <%= pluralize(category.products.where(active: true).count, "product") %>
-          </p>
-
-          <%= link_to "View Category",
-              category_path(category),
-              class: "btn bodyera-button w-100" %>
         </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
+
 </div>

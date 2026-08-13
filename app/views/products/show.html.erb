@@ -1,143 +1,207 @@
 <!-- Displays detailed information for a single BodyEra product -->
+<div class="container-xl py-5">
 
-<div class="row g-5">
+  <div class="row g-5">
 
-  <!-- Product Image -->
-  <div class="col-lg-6">
-    <% if @product.images.attached? %>
-      <div class="row g-3 mb-4">
-        <% @product.images.each_with_index do |image, index| %>
-          <div class="<%= index.zero? ? 'col-12' : 'col-6 col-md-4' %>">
-            <%= image_tag image.variant(
-                  resize_to_limit: [900, 900]
-                ),
-                class: "img-fluid rounded shadow-sm w-100",
-                style: "max-height: 500px; object-fit: cover;",
-                alt: "#{@product.name} image #{index + 1}" %>
-          </div>
-        <% end %>
-      </div>
-    <% else %>
-      <div class="bg-light rounded d-flex align-items-center justify-content-center mb-4"
-          style="height: 400px;">
-        <span class="text-muted">No product image available</span>
-      </div>
-    <% end %>
-  </div>
+    <!-- Product Image -->
+    <div class="col-lg-6">
 
-  <!-- Product Information -->
-  <div class="col-lg-6">
+      <% if @product.images.attached? %>
 
-    <p class="bodyera-category-label mb-2">
-      <%= @product.category.name %>
-    </p>
+        <div class="row g-3 mb-4">
 
-    <h1 class="display-5 fw-bold mb-3">
-      <%= @product.name %>
-    </h1>
+          <% @product.images.each_with_index do |image, index| %>
 
-    <p class="bodyera-price fs-3 fw-bold mb-4">
-      <%= number_to_currency(@product.current_price) %>
-    </p>
+            <div class="<%= index.zero? ? 'col-12' : 'col-6 col-md-4' %>">
 
-    <p class="lead text-muted mb-4">
-      <%= @product.description %>
-    </p>
+              <%= image_tag image.variant(
+                    resize_to_limit: [900, 900]
+                  ),
+                  class: "img-fluid rounded shadow-sm w-100",
+                  style: "max-height: 500px; object-fit: cover;",
+                  alt: "#{@product.name} image #{index + 1}" %>
 
-    <!-- Feature 2.3 - Product Variant Selection -->
-    <!-- Feature 3.1.1 - Add selected product variant to session cart -->
-    <div class="card bodyera-detail-card mb-4">
-      <div class="card-body">
-
-        <h2 class="h4 mb-4">
-          Select Your Style
-        </h2>
-
-        <!-- Sizes -->
-        <p class="fw-bold mb-2">Available Sizes</p>
-
-        <div class="mb-4">
-          <% @product.product_variants.select(:size).distinct.order(:size).each do |variant| %>
-            <span class="badge bg-dark me-2 mb-2 px-4 py-2 fs-6">
-              <%= variant.size %>
-            </span>
-          <% end %>
-        </div>
-
-        <!-- Colours -->
-        <p class="fw-bold mb-2">Available Colours</p>
-
-        <div class="mb-4">
-          <% @product.product_variants.select(:colour).distinct.order(:colour).each do |variant| %>
-
-            <% badge_class =
-              case variant.colour.downcase
-              when "black"
-                "bg-dark"
-              when "white"
-                "bg-light text-dark border"
-              when "grey"
-                "bg-secondary"
-              when "navy"
-                "bg-primary"
-              else
-                "bg-dark"
-              end %>
-
-            <span class="badge <%= badge_class %> me-2 mb-2 px-4 py-2">
-              <%= variant.colour %>
-            </span>
-
-          <% end %>
-        </div>
-
-        <%= form_with url: add_cart_path, method: :post, local: true do %>
-
-          <div class="mb-3">
-
-            <%= label_tag :variant_id,
-                "Choose Size & Colour",
-                class: "form-label fw-bold" %>
-
-            <%= select_tag :variant_id,
-                options_for_select(
-                  @product.product_variants
-                    .where("stock_quantity > 0")
-                    .order(:size, :colour)
-                    .map do |variant|
-                      [
-                        "#{variant.size} • #{variant.colour}",
-                        variant.id
-                      ]
-                    end
-                ),
-                class: "form-select" %>
-
-          </div>
-
-          <div class="row align-items-end">
-            <div class="col-4">
-              <%= label_tag :quantity, "Quantity", class: "form-label fw-bold" %>
-
-              <%= number_field_tag :quantity,
-                  1,
-                  min: 1,
-                  class: "form-control" %>
             </div>
 
-            <div class="col-8">
-              <%= submit_tag "Add to Cart",
-                  class: "btn bodyera-button w-100" %>
-            </div>
+          <% end %>
+
+        </div>
+
+      <% else %>
+
+        <div class="bg-light rounded d-flex align-items-center justify-content-center mb-4"
+             style="height: 400px;">
+
+          <span class="text-muted">
+            No product image available
+          </span>
+
+        </div>
+
+      <% end %>
+
+    </div>
+
+
+    <!-- Product Information -->
+    <div class="col-lg-6">
+
+      <p class="bodyera-category-label mb-2">
+        <%= @product.category.name %>
+      </p>
+
+      <h1 class="display-5 fw-bold mb-3">
+        <%= @product.name %>
+      </h1>
+
+      <p class="bodyera-price fs-3 fw-bold mb-4">
+        <%= number_to_currency(@product.current_price) %>
+      </p>
+
+      <p class="lead text-muted mb-4">
+        <%= @product.description %>
+      </p>
+
+
+      <!-- Feature 2.3 - Product Variant Selection -->
+      <!-- Feature 3.1.1 - Add selected product variant to session cart -->
+      <div class="card bodyera-detail-card mb-4">
+
+        <div class="card-body">
+
+          <h2 class="h4 mb-4">
+            Select Your Style
+          </h2>
+
+
+          <!-- Sizes -->
+          <p class="fw-bold mb-2">
+            Available Sizes
+          </p>
+
+          <div class="mb-4">
+
+            <% @product.product_variants
+                       .select(:size)
+                       .distinct
+                       .order(:size)
+                       .each do |variant| %>
+
+              <span class="badge bg-dark me-2 mb-2 px-4 py-2 fs-6">
+                <%= variant.size %>
+              </span>
+
+            <% end %>
+
           </div>
+
+
+          <!-- Colours -->
+          <p class="fw-bold mb-2">
+            Available Colours
+          </p>
+
+          <div class="mb-4">
+
+            <% @product.product_variants
+                       .select(:colour)
+                       .distinct
+                       .order(:colour)
+                       .each do |variant| %>
+
+              <% badge_class =
+                case variant.colour.downcase
+                when "black"
+                  "bg-dark"
+                when "white"
+                  "bg-light text-dark border"
+                when "grey"
+                  "bg-secondary"
+                when "navy"
+                  "bg-primary"
+                else
+                  "bg-dark"
+                end %>
+
+              <span class="badge <%= badge_class %> me-2 mb-2 px-4 py-2">
+                <%= variant.colour %>
+              </span>
+
+            <% end %>
+
+          </div>
+
+
+          <!-- Add to Cart Form -->
+          <%= form_with url: add_cart_path,
+                        method: :post,
+                        local: true do %>
+
+            <div class="mb-3">
+
+              <%= label_tag :variant_id,
+                  "Choose Size & Colour",
+                  class: "form-label fw-bold" %>
+
+              <%= select_tag :variant_id,
+                  options_for_select(
+                    @product.product_variants
+                      .where("stock_quantity > 0")
+                      .order(:size, :colour)
+                      .map do |variant|
+                        [
+                          "#{variant.size} • #{variant.colour}",
+                          variant.id
+                        ]
+                      end
+                  ),
+                  class: "form-select" %>
+
+            </div>
+
+
+            <div class="row align-items-end">
+
+              <div class="col-4">
+
+                <%= label_tag :quantity,
+                    "Quantity",
+                    class: "form-label fw-bold" %>
+
+                <%= number_field_tag :quantity,
+                    1,
+                    min: 1,
+                    class: "form-control" %>
+
+              </div>
+
+
+              <div class="col-8">
+
+                <%= submit_tag "Add to Cart",
+                    class: "btn bodyera-button w-100" %>
+
+              </div>
+
+            </div>
 
           <% end %>
 
-      <div class="mt-4">
-        <%= link_to "Continue Shopping",
-            products_path,
-            class: "btn btn-outline-secondary" %>
+
+          <div class="mt-4">
+
+            <%= link_to "Continue Shopping",
+                products_path,
+                class: "btn btn-outline-secondary" %>
+
+          </div>
+
+        </div>
+
       </div>
 
+    </div>
+
   </div>
+
 </div>
