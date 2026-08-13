@@ -13,27 +13,116 @@ body {
 /* ---------- Home Hero ---------- */
 
 .bodyera-hero {
-  background-color: $bodyera-dark;
-  border: 1px solid rgba($bodyera-accent, 0.45);
-  box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.12);
+  position: relative;
+  min-height: 650px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
 }
 
-.bodyera-hero-title {
+.bodyera-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.88) 0%,
+    rgba(0, 0, 0, 0.65) 35%,
+    rgba(0, 0, 0, 0.15) 70%,
+    rgba(0, 0, 0, 0.05) 100%
+  );
+}
+
+.bodyera-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 650px;
+  padding: 5rem 7%;
+  color: white;
+}
+
+.bodyera-hero-eyebrow {
   color: $bodyera-accent;
-  letter-spacing: 0.08rem;
-  text-transform: uppercase;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.18rem;
+  margin-bottom: 0.75rem;
+}
+
+.bodyera-hero-content h1 {
+  font-size: clamp(3rem, 6vw, 6rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: 0.05rem;
+  margin-bottom: 1.25rem;
 }
 
 .bodyera-hero-tagline {
   color: #ffffff;
+  font-size: 1.4rem;
   font-weight: 600;
+  margin-bottom: 1rem;
 }
 
 .bodyera-hero-description {
-  color: #c7c7c7;
-  max-width: 650px;
-  margin: 0 auto;
+  color: #d0d0d0;
+  font-size: 1.05rem;
   line-height: 1.7;
+  max-width: 540px;
+  margin-bottom: 2rem;
+}
+
+.bodyera-hero-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.bodyera-hero-button {
+  background-color: $bodyera-accent;
+  border: 2px solid $bodyera-accent;
+  color: white;
+  padding: 0.85rem 1.75rem;
+  font-weight: 700;
+}
+
+.bodyera-hero-button:hover {
+  background-color: darken($bodyera-accent, 8%);
+  border-color: darken($bodyera-accent, 8%);
+  color: white;
+}
+
+.bodyera-hero-button-outline {
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+  padding: 0.85rem 1.75rem;
+  font-weight: 700;
+}
+
+.bodyera-hero-button-outline:hover {
+  background-color: white;
+  color: $bodyera-dark;
+}
+
+@media (max-width: 768px) {
+  .bodyera-hero {
+    min-height: 600px;
+    background-position: 65% center;
+  }
+
+  .bodyera-hero-overlay {
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .bodyera-hero-content {
+    padding: 4rem 1.5rem;
+  }
+
+  .bodyera-hero-content h1 {
+    font-size: 3rem;
+  }
 }
 
 /* ---------- Navbar ---------- */
@@ -103,4 +192,123 @@ body {
     background: #6d5151;
     color: white;
     border-radius: 999px;
+}
+
+/* ---------- Kaminari ---------- */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.35rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  padding-left: 0;
+  list-style: none;
+
+  .page-item {
+    .page-link {
+      color: $bodyera-accent;
+      background-color: #ffffff;
+      border: 1px solid $bodyera-accent;
+      border-radius: 0.35rem;
+      padding: 0.55rem 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+
+      &:hover {
+        color: #ffffff;
+        background-color: $bodyera-accent;
+        border-color: $bodyera-accent;
+      }
+    }
+
+    &.active .page-link {
+      color: #ffffff;
+      background-color: $bodyera-accent;
+      border-color: $bodyera-accent;
+    }
+
+    &.disabled .page-link {
+      color: #999999;
+      background-color: $bodyera-light;
+      border-color: #dddddd;
+      pointer-events: none;
+    }
+  }
+}
+
+/* ---------- Announcement Bar ---------- */
+
+.bodyera-announcement {
+  background-color: $bodyera-accent;
+  color: #ffffff;
+  padding: 0.45rem 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08rem;
+  text-transform: uppercase;
+}
+
+/* ---------- Homepage Category Carousel ---------- */
+
+.bodyera-section-label {
+  color: $bodyera-accent;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12rem;
+  text-transform: uppercase;
+}
+
+.bodyera-category-card {
+  border: 1px solid #dddddd;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.1);
+  }
+}
+
+.bodyera-category-image {
+  height: 320px;
+  object-fit: cover;
+}
+
+.bodyera-category-placeholder {
+  height: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #eeeeee;
+  color: #777777;
+}
+
+.bodyera-carousel-control {
+  width: 48px;
+  height: 48px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: $bodyera-dark;
+  border-radius: 50%;
+  opacity: 0.9;
+}
+
+.carousel-control-prev {
+  left: -24px;
+}
+
+.carousel-control-next {
+  right: -24px;
+}
+
+/* ---------- BodyEra Links ---------- */
+
+.bodyera-link {
+  color: $bodyera-accent;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: darken($bodyera-accent, 10%);
+  }
 }

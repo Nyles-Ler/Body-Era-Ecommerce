@@ -1,18 +1,116 @@
-<section class="bodyera-hero rounded p-5 mb-5 text-center">
-  <h1 class="display-4 fw-bold bodyera-hero-title">
-    BodyEra Fitness
-  </h1>
+<section class="bodyera-hero"
+         style="background-image: url('<%= asset_path("bodyera-hero.png") %>');">
 
-  <p class="lead bodyera-hero-tagline">
-    Train Hard. Wear BodyEra.
-  </p>
+  <div class="bodyera-hero-overlay"></div>
 
-  <p class="bodyera-hero-description">
-    Premium fitness apparel designed for athletes who
-    demand performance, comfort, and style.
-  </p>
+  <div class="bodyera-hero-content">
+    <p class="bodyera-hero-eyebrow">BODYERA FITNESS</p>
 
-  <%= link_to "Shop Products",
-      products_path,
-      class: "btn bodyera-button btn-lg mt-3" %>
+    <h1>BUILT FOR YOUR ERA.</h1>
+
+    <p class="bodyera-hero-tagline">
+      Train Hard. Wear BodyEra.
+    </p>
+
+    <p class="bodyera-hero-description">
+      Premium fitness apparel designed for athletes who demand
+      performance, comfort, and style.
+    </p>
+
+    <div class="bodyera-hero-actions">
+      <%= link_to "SHOP PRODUCTS", products_path,
+          class: "btn bodyera-hero-button" %>
+
+      <%= link_to "SHOP CATEGORIES", categories_path,
+          class: "btn bodyera-hero-button-outline" %>
+    </div>
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container">
+
+    <div class="d-flex justify-content-between align-items-end mb-4">
+      <div>
+        <p class="bodyera-section-label mb-1">SHOP BODYERA</p>
+        <h2 class="display-6 fw-bold mb-0">Shop By Styles</h2>
+      </div>
+
+      <%= link_to "View All Categories",
+          categories_path,
+          class: "bodyera-link text-decoration-none fw-bold" %>
+    </div>
+
+    <div id="categoryCarousel"
+         class="carousel slide"
+         data-bs-ride="false">
+
+      <div class="carousel-inner">
+
+        <% @categories.each_slice(3).with_index do |category_group, index| %>
+          <div class="carousel-item <%= 'active' if index.zero? %>">
+
+            <div class="row g-4">
+              <% category_group.each do |category| %>
+              <div class="col-md-4">
+                <div class="card bodyera-category-card h-100">
+
+                  <% product_with_image =
+                      category
+                      .products
+                      .with_attached_images
+                      .detect { |product| product.images.attached? } %>
+
+                      <% if product_with_image %>
+                        <%= image_tag product_with_image.images.first.variant(
+                          resize_to_fill: [700, 500]
+                          ),
+                          class: "card-img-top bodyera-category-image",
+                          alt: category.name %>
+
+                      <% else %>
+                        <div class="bodyera-category-placeholder">
+                          No image available
+                        </div>
+                      <% end %>
+
+                      <div class="card-body">
+                        <h3 class="h4 fw-bold">
+                          <%= category.name %>
+                        </h3>
+
+                        <p class="text-muted">
+                          <%= category.description %>
+                        </p>
+
+                        <%= link_to "Shop #{category.name}",
+                            category_path(category),
+                            class: "btn bodyera-button w-100" %>
+                      </div>
+
+                </div>
+              </div>
+              <% end %>
+            </div>
+
+      </div>
+    <% end %>
+
+  </div>
+
+  <button class="carousel-control-prev bodyera-carousel-control"
+          type="button"
+          data-bs-target="#categoryCarousel"
+          data-bs-slide="prev">
+
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+
+  <button class="carousel-control-next bodyera-carousel-control"
+          type="button"
+          data-bs-target="#categoryCarousel"
+          data-bs-slide="next">
+
+    <span class="carousel-control-next-icon"></span>
+  </button>
 </section>
