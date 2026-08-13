@@ -1,0 +1,64 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+
+      <div class="card bodyera-detail-card">
+        <div class="card-body p-4">
+
+          <p class="bodyera-section-label mb-2">
+            ACCOUNT RECOVERY
+          </p>
+
+          <h1 class="h2 fw-bold mb-2">
+            Reset Password
+          </h1>
+
+          <p class="text-muted mb-4">
+            Enter your email and we'll send you instructions to reset your password.
+          </p>
+
+          <%= form_for(resource,
+              as: resource_name,
+              url: password_path(resource_name),
+              html: { method: :post }) do |f| %>
+
+            <%= render "users/shared/error_messages",
+                resource: resource %>
+
+            <div class="mb-4">
+              <%= f.label :email,
+                  class: "form-label fw-bold" %>
+
+              <%= f.email_field :email,
+                  autofocus: true,
+                  autocomplete: "email",
+                  class: "form-control" %>
+            </div>
+
+            <%= f.submit "Send Reset Instructions",
+                class: "btn bodyera-button w-100 py-2" %>
+
+          <% end %>
+
+          <div class="text-center mt-4">
+            <%= link_to "Back to Login",
+                new_user_session_path,
+                class: "bodyera-link text-decoration-none fw-bold" %>
+          </div>
+
+          <div class="text-center mt-2">
+            <span class="text-muted">
+              Don't have an account?
+            </span>
+
+            <%= link_to "Create Account",
+                new_user_registration_path,
+                class: "bodyera-link text-decoration-none fw-bold ms-1" %>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

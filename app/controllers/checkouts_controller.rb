@@ -11,6 +11,10 @@ class CheckoutsController < ApplicationController
     end
 
     @provinces = Province.order(:name)
+
+    if user_signed_in?
+      @checkout_user = current_user
+    end
   end
 
   def create
@@ -92,6 +96,16 @@ class CheckoutsController < ApplicationController
   end
 
   def find_or_create_customer!
+    if user_signed_in?
+      current_user.update!(
+        first_name: checkout_params[:first_name],
+        last_name: checkout_params[:last_name],
+        phone_number: checkout_params[:phone_number]
+      )
+
+      return current_user
+    end
+
     email = checkout_params[:email].to_s.strip.downcase
     user = User.find_or_initialize_by(email: email)
 
@@ -99,9 +113,9 @@ class CheckoutsController < ApplicationController
     user.last_name = checkout_params[:last_name]
     user.phone_number = checkout_params[:phone_number]
 
-    # Temporary guest password required by has_secure_password
     if user.new_record?
       temporary_password = SecureRandom.hex(16)
+
       user.password = temporary_password
       user.password_confirmation = temporary_password
     end

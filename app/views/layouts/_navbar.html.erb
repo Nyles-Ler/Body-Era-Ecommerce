@@ -5,49 +5,72 @@
   </div>
 </div>
 
-<nav class="navbar navbar-expand-lg navbar-dark bodyera-navbar">
+<nav class="navbar navbar-expand-lg navbar-dark bodyera-navbar py-3">
   <div class="container">
 
     <!-- Brand link -->
     <%= link_to "BodyEra",
         root_path,
-        class: "navbar-brand bodyera-text fw-bold" %>
+        class: "navbar-brand bodyera-text fw-bold me-4" %>
 
     <!-- Navigation links and search -->
     <div class="collapse navbar-collapse" id="bodyeraNavigation">
 
-      <div class="navbar-nav me-auto">
+      <div class="navbar-nav me-auto gap-lg-1">
         <%= link_to "Products", products_path, class: "nav-link bodyera-nav-link" %>
         <%= link_to "Categories", categories_path, class: "nav-link bodyera-nav-link" %>
         <%= link_to "Cart", cart_path, class: "nav-link bodyera-nav-link" %>
-        <%= link_to "About", about_path, class: "nav-link" %>
-        <%= link_to "Contact", contact_path, class: "nav-link" %>
+        <%= link_to "About", about_path, class: "nav-link bodyera-nav-link" %>
+        <%= link_to "Contact", contact_path, class: "nav-link bodyera-nav-link" %>
       </div>
 
-      <!-- Feature 2.6 Category Dropdown Optional Search -->
-      <%= form_with url: products_path,
-                    method: :get,
-                    local: true,
-                    class: "d-flex gap-2" do %>
+      <div class="d-flex align-items-center gap-3 ms-lg-4">
 
-        <%= text_field_tag :search,
-            params[:search],
-            placeholder: "Search products...",
-            class: "form-control" %>
+        <% if user_signed_in? %>
+          <span class="bodyera-nav-link text-nowrap">
+            Hi, <%= current_user.first_name %>
+          </span>
 
-        <%= select_tag :category_id,
-            options_from_collection_for_select(
-              Category.order(:name),
-              :id,
-              :name,
-              params[:category_id]
-            ),
-            include_blank: "All Categories",
-            class: "form-select" %>
+          <%= button_to "Logout",
+              destroy_user_session_path,
+              method: :delete,
+              class: "btn bodyera-button text-nowrap" %>
+        <% else %>
+          <%= link_to "Login",
+              new_user_session_path,
+              class: "bodyera-nav-link text-decoration-none text-nowrap" %>
 
-        <%= submit_tag "Search",
-            class: "btn bodyera-button" %>
-      <% end %>
+          <%= link_to "Sign Up",
+              new_user_registration_path,
+              class: "btn bodyera-button text-nowrap" %>
+        <% end %>
+
+        <!-- Feature 2.6 Category Dropdown Optional Search -->
+        <%= form_with url: products_path,
+                      method: :get,
+                      local: true,
+                      class: "d-flex gap-2 ms-2" do %>
+
+          <%= text_field_tag :search,
+              params[:search],
+              placeholder: "Search products...",
+              class: "form-control" %>
+
+          <%= select_tag :category_id,
+              options_from_collection_for_select(
+                Category.order(:name),
+                :id,
+                :name,
+                params[:category_id]
+              ),
+              include_blank: "All Categories",
+              class: "form-select" %>
+
+          <%= submit_tag "Search",
+              class: "btn bodyera-button" %>
+        <% end %>
+
+      </div>
 
     </div>
   </div>

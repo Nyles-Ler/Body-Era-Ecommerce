@@ -1,0 +1,110 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+
+      <div class="card bodyera-detail-card">
+        <div class="card-body p-4">
+
+          <p class="bodyera-section-label mb-2">
+            JOIN BODYERA
+          </p>
+
+          <h1 class="h2 fw-bold mb-2">
+            Create Account
+          </h1>
+
+          <p class="text-muted mb-4">
+            Create your BodyEra account to simplify future orders.
+          </p>
+
+          <%= form_for(resource,
+              as: resource_name,
+              url: registration_path(resource_name)) do |f| %>
+
+            <%= render "users/shared/error_messages",
+                resource: resource %>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <%= f.label :first_name,
+                    class: "form-label fw-bold" %>
+
+                <%= f.text_field :first_name,
+                    autofocus: true,
+                    autocomplete: "given-name",
+                    class: "form-control" %>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <%= f.label :last_name,
+                    class: "form-label fw-bold" %>
+
+                <%= f.text_field :last_name,
+                    autocomplete: "family-name",
+                    class: "form-control" %>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label :email,
+                  class: "form-label fw-bold" %>
+
+              <%= f.email_field :email,
+                  autocomplete: "email",
+                  class: "form-control" %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label :phone_number,
+                  class: "form-label fw-bold" %>
+
+              <%= f.telephone_field :phone_number,
+                  autocomplete: "tel",
+                  class: "form-control" %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label :password,
+                  class: "form-label fw-bold" %>
+
+              <% if @minimum_password_length %>
+                <div class="form-text mb-2">
+                  <%= @minimum_password_length %> characters minimum
+                </div>
+              <% end %>
+
+              <%= f.password_field :password,
+                  autocomplete: "new-password",
+                  class: "form-control" %>
+            </div>
+
+            <div class="mb-4">
+              <%= f.label :password_confirmation,
+                  class: "form-label fw-bold" %>
+
+              <%= f.password_field :password_confirmation,
+                  autocomplete: "new-password",
+                  class: "form-control" %>
+            </div>
+
+            <%= f.submit "Create Account",
+                class: "btn bodyera-button w-100 py-2" %>
+
+          <% end %>
+
+          <div class="text-center mt-4">
+            <span class="text-muted">
+              Already have an account?
+            </span>
+
+            <%= link_to "Login",
+                new_user_session_path,
+                class: "bodyera-link text-decoration-none fw-bold ms-1" %>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

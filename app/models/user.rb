@@ -1,5 +1,11 @@
 class User < ApplicationRecord
-  has_secure_password
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable,
+        :registerable,
+        :recoverable,
+        :rememberable,
+        :validatable
 
   # Feature 4.2.2
   has_many :addresses, dependent: :destroy
@@ -9,11 +15,10 @@ class User < ApplicationRecord
   # Feature 4.2.1
   validates :first_name, presence: true, length: { maximum: 50 }
   validates :last_name, presence: true, length: { maximum: 50 }
-  validates :email, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 255 }, format: { with: URI::MailTo::EMAIL_REGEXP, message: "must be a valid email address" }
+  validates :email, length: { maximum: 255 }
   validates :phone_number, allow_blank: true, format: { with: /\A[\d\s()+\-]+\z/, message: "contains invalid characters" }, length: { maximum: 25 }
-  validates :password, length: { minimum: 8 }, if: -> { password.present? }
 
-    def self.ransackable_attributes(auth_object = nil)
+  def self.ransackable_attributes(auth_object = nil)
     %w[
       created_at
       email
