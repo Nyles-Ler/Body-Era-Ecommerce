@@ -9,25 +9,38 @@
   <div class="container-fluid px-4 px-lg-5">
 
     <!-- Brand -->
-    <div class="d-flex align-items-center me-4">
-      <%= link_to root_path,
-          class: "text-decoration-none d-flex align-items-center gap-2" do %>
+    <%= link_to root_path,
+        class: "navbar-brand bodyera-text fw-bold d-flex align-items-center gap-2" do %>
 
-        <%= image_tag "bodyera-logo.png",
-            alt: "BodyEra",
-            height: 34 %>
+      <%= image_tag "bodyera-logo.png",
+          alt: "BodyEra",
+          height: 34 %>
 
-        <span class="navbar-brand fs-4 bodyera-text fw-bold mb-0">
-          BodyEra
-        </span>
+      <span class="navbar-brand fs-4 bodyera-text fw-bold mb-0">
+        BodyEra
+      </span>
+    <% end %>
 
-      <% end %>
-    </div>
 
+    <!-- Mobile Toggle -->
+    <button class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#bodyeraNavigation"
+            aria-controls="bodyeraNavigation"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <!-- Collapsible Navbar -->
     <div class="collapse navbar-collapse" id="bodyeraNavigation">
 
-      <!-- Main Navigation -->
-      <div class="navbar-nav me-auto gap-lg-2">
+      <!-- Main Links -->
+      <div class="navbar-nav me-auto ms-lg-4 gap-lg-2">
+
         <%= link_to "Products",
             products_path,
             class: "nav-link bodyera-nav-link" %>
@@ -43,38 +56,52 @@
         <%= link_to "Contact",
             contact_path,
             class: "nav-link bodyera-nav-link" %>
+
       </div>
 
+
       <!-- Account + Cart -->
-      <div class="d-flex align-items-center gap-3 me-4">
+      <div class="d-flex align-items-center gap-3 my-3 my-lg-0 me-lg-4">
 
         <% if user_signed_in? %>
+
           <%= link_to account_path,
               class: "bodyera-nav-link text-decoration-none fs-5",
               title: "My Account" do %>
+
             <i class="bi bi-person"></i>
+
           <% end %>
+
         <% else %>
+
           <%= link_to new_user_session_path,
               class: "bodyera-nav-link text-decoration-none fs-5",
               title: "Login" do %>
+
             <i class="bi bi-person"></i>
+
           <% end %>
+
         <% end %>
+
 
         <%= link_to cart_path,
             class: "bodyera-nav-link text-decoration-none fs-5",
             title: "Shopping Cart" do %>
+
           <i class="bi bi-bag"></i>
+
         <% end %>
 
       </div>
+
 
       <!-- Search -->
       <%= form_with url: products_path,
                     method: :get,
                     local: true,
-                    class: "d-flex gap-2 align-items-center" do %>
+                    class: "d-flex flex-column flex-lg-row gap-2" do %>
 
         <%= text_field_tag :search,
             params[:search],
@@ -97,5 +124,6 @@
       <% end %>
 
     </div>
+
   </div>
 </nav>
