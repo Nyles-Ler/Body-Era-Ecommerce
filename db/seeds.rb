@@ -41,12 +41,19 @@ puts "Seeded #{Product.count} products."
 puts "Seeded #{ProductVariant.count} product variants."
 
 # Feature 1.1, 1.2 Creates administrator account
-AdminUser.find_or_create_by!(email: "admin@bodyera.ca") do |admin|
-  admin.password = "password"
-  admin.password_confirmation = "password"
-end
+admin_email = ENV.fetch("ADMIN_EMAIL", "admin@bodyera.ca")
+admin_password = ENV["ADMIN_PASSWORD"]
 
-puts "Seeded admin user."
+if admin_password.present?
+  AdminUser.find_or_create_by!(email: admin_email) do |admin|
+    admin.password = admin_password
+    admin.password_confirmation = admin_password
+  end
+
+  puts "Seeded admin user."
+else
+  puts "Skipped admin user: ADMIN_PASSWORD is not set."
+end
 
 # Feature 1.4 Edit content of websites about and contact page
 contact_page = Page.find_or_initialize_by(slug: "contact")
