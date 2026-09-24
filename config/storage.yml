@@ -7,8 +7,13 @@ local:
   root: <%= Rails.root.join("storage") %>
 
 production:
-  service: Disk
-  root: <%= ENV.fetch("ACTIVE_STORAGE_PATH", Rails.root.join("storage")) %>
+  service: S3
+  access_key_id: <%= ENV["e2d167fb6d85e0fefa68cc12bad08387"] %>
+  secret_access_key: <%= ENV["3a3811d488a040c0e7b0ef676025998e07b80d85d3d863d6fad3f22fb9970677"] %>
+  region: auto
+  bucket: <%= ENV.fetch("R2_BUCKET", "bodyera-production") %>
+  endpoint: <%= ENV["https://b1e23642df67b4c37dca56f28e317228.r2.cloudflarestorage.com"] %>
+  force_path_style: true
 
 # Use bin/rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:

@@ -10,6 +10,8 @@ gem "kaminari"
 
 gem "cssbundling-rails", "~> 1.4"
 
+gem "aws-sdk-s3", require: false
+
 gem "activeadmin"
 
 gem "devise"
